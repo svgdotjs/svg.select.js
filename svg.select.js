@@ -16,7 +16,8 @@
                 points:true,
                 classRect:'svg_select_boundingRect',
                 classPoints:'svg_select_points',
-                radius:7
+                radius:7,
+                rotationPoint:true
                 //TODO: deepSelect - doubleClick selects every point from polygons/lines and not only the box
             };
 
@@ -47,7 +48,7 @@
 
             // select
             this.boundingGroup = {
-                group:this.parent.group().move(bbox.x, bbox.y),
+                group:this.parent.group().transform(element.transform()).move(bbox.x, bbox.y),
                 rect:null,
                 circles:[]
             };
@@ -56,6 +57,7 @@
                 'class':defaults.classRect
             });
 
+            //TODO: ev.returnValue = false;
             if(defaults.points){
                 this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(0,0).attr('class', defaults.classPoints+'_lt')
                     .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('lt', {detail:{x:ev.pageX, y:ev.pageY}})); }));
@@ -85,13 +87,19 @@
                 this.boundingGroup.circles.forEach(function(c){ c.node.className += ' ' + defaults.classPoints; });
             }
 
+            if(defaults.rotationPoint){
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width/2,20).attr('class', defaults.classPoints+'_rot')
+                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('rot', {detail:{x:ev.pageX, y:ev.pageY}})); }));
+            }
+
             this.isSelected = true;
 
             // Observe the attributes of the shape. When changing, adjust the boundingRect
             this.boundingGroup.attributeObserver = new MutationObserver(function(){
                 bbox = element.bbox();
                 if(element.boundingGroup){
-                    element.boundingGroup.group.move(bbox.x, bbox.y);
+                    //console.log(element.boundingGroup.group.bbox());
+                    element.boundingGroup.group.transform(element.transform()).move(bbox.x, bbox.y);
                     element.boundingGroup.rect.attr({
                         width:bbox.width,
                         height:bbox.height
@@ -106,6 +114,10 @@
                         element.boundingGroup.circles[5].center(bbox.width,bbox.height/2);
                         element.boundingGroup.circles[6].center(bbox.width/2,bbox.height);
                         element.boundingGroup.circles[7].center(0,bbox.height/2);
+                    }
+
+                    if(defaults.rotationPoint){
+                        element.boundingGroup.circles[8].center(bbox.width/2,20);
                     }
                 }
             });

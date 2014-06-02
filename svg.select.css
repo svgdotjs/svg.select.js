@@ -23,6 +23,12 @@
     cursor: w-resize;
 }
 
+.svg_select_points_rot{
+    stroke-width:1;
+    stroke:black;
+    fill: #F9FFED;
+}
+
 .svg_select_boundingRect{
     stroke-width:1;
     fill:gray;
