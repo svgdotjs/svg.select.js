@@ -36,4 +36,5 @@ You can style the selection with the classes
 - classRect: Classname of the rect from the bounding Box (default `svg_select_boundingRect`)
 - classPoints: Classname/Prefix of the Points (default `svg_select_points`)
 - radius: Radius of the points (default `7`)
-- rotationPoint: Draws the point for doing rotation (defazult `true`)
+- rotationPoint: Draws the point for doing rotation (default `true`)
+- deepSelect: Only for polygon/polyline/line. Selects the points itself (default `false`)

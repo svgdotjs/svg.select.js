@@ -10,15 +10,16 @@
 
             var defaults
               , element = this
-              , bbox = this.bbox();
+              , bbox = this.bbox()
+              , parent = this.parent._parent(SVG.Nested) || this._parent(SVG.Doc);
 
             defaults = {
                 points:true,
                 classRect:'svg_select_boundingRect',
                 classPoints:'svg_select_points',
                 radius:7,
-                rotationPoint:true
-                //TODO: deepSelect - doubleClick selects every point from polygons/lines and not only the box
+                rotationPoint:true,
+                deepSelect:false
             };
 
             if(typeof value === 'object'){
@@ -29,8 +30,60 @@
             value = value === undefined ? true : value;
 
             for(var i in options){
-                if(!defaults[i])throw('Property '+i+'doesn\'t exists');
+                if(defaults[i] === undefined)throw('Property '+i+' doesn\'t exists');
                 defaults[i] = options[i];
+            }
+
+            if(defaults.deepSelect && ['line', 'polyline', 'polygon'].indexOf(element.type) !== -1){
+                var drawCircles, updateCircles, array;
+                element.deepSelect = element.deepSelect || {};
+
+                if(!value){
+                    element.deepSelect.set.each(function(){ this.remove(); });
+                    element.deepSelect.set.clear();
+                    element.isSelected = false;
+                    this.deepSelect.attributeObserver.disconnect();
+                    return this;
+                }
+
+                if(element.isSelected)return this;
+
+                element.deepSelect.set = parent.set();
+
+                drawCircles = function(array){
+                    for(var i = 0; i<array.length; ++i){
+                        element.deepSelect.set.add(
+                            parent.circle(defaults.radius).center(array[i][0], array[i][1]).attr('class', defaults.classPoints + ' ' + defaults.classPoints+'_point')
+                                .mousedown(
+                                    (function(k){
+                                        return function(ev){
+                                            ev.preventDefault && ev.preventDefault();
+                                            element.node.dispatchEvent(new CustomEvent('point', {detail:{x:ev.pageX, y:ev.pageY, i:k}}));
+                                        }
+                                    })(i)
+                                )
+                        );
+                    }
+                };
+
+                updateCircles = function(array){
+                    element.deepSelect.set.each(function(i){
+                        if(this.cx() == array[i][0] && this.cy() == array[i][1])return;
+                        this.center(array[i][0], array[i][1]);
+                    });
+                }
+                array = element.type == 'line' ? [[element.attr('x1'), element.attr('y1')],[element.attr('x2'), element.attr('y2')]] : element.array.value;
+
+                drawCircles(array);
+                element.isSelected = true;
+
+                this.deepSelect.attributeObserver = new MutationObserver(function(){
+                    var arr = element.type == 'line' ? [[element.attr('x1'), element.attr('y1')],[element.attr('x2'), element.attr('y2')]] : element.array.value;
+                    updateCircles(arr);
+                });
+
+                this.deepSelect.attributeObserver.observe(element.node, {attributes:true});
+                return this;
             }
 
             // deselect
@@ -57,32 +110,23 @@
                 'class':defaults.classRect
             });
 
-            //TODO: ev.returnValue = false;
+            function getMoseDownFunc(eventName){
+                return function(ev){
+                    (ev.preventDefault && ev.preventDefault()) || (ev.returnValue = false);
+                    element.node.dispatchEvent(new CustomEvent(eventName, {detail:{x:ev.pageX, y:ev.pageY}}));
+                };
+            }
+
             if(defaults.points){
-                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(0,0).attr('class', defaults.classPoints+'_lt')
-                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('lt', {detail:{x:ev.pageX, y:ev.pageY}})); }));
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(0,0).attr('class', defaults.classPoints+'_lt').mousedown(getMoseDownFunc('lt')));
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width,0).attr('class', defaults.classPoints+'_rt').mousedown(getMoseDownFunc('rt')));
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width,bbox.height).attr('class', defaults.classPoints+'_rb').mousedown(getMoseDownFunc('rb')));
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(0,bbox.height).attr('class', defaults.classPoints+'_lb').mousedown(getMoseDownFunc('lb')));
 
-                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width,0).attr('class', defaults.classPoints+'_rt')
-                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('rt', {detail:{x:ev.pageX, y:ev.pageY}})); }));
-
-                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width,bbox.height).attr('class', defaults.classPoints+'_rb')
-                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('rb', {detail:{x:ev.pageX, y:ev.pageY}})); }));
-
-                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(0,bbox.height).attr('class', defaults.classPoints+'_lb')
-                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('lb', {detail:{x:ev.pageX, y:ev.pageY}})); }));
-
-
-                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width/2,0).attr('class', defaults.classPoints+'_t')
-                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('t', {detail:{x:ev.pageX, y:ev.pageY}})); }));
-
-                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width,bbox.height/2).attr('class', defaults.classPoints+'_r')
-                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('r', {detail:{x:ev.pageX, y:ev.pageY}})); }));
-
-                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width/2,bbox.height).attr('class', defaults.classPoints+'_b')
-                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('b', {detail:{x:ev.pageX, y:ev.pageY}})); }));
-
-                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(0,bbox.height/2).attr('class', defaults.classPoints+'_l')
-                    .mousedown(function(ev){ ev.preventDefault && ev.preventDefault(); element.node.dispatchEvent(new CustomEvent('l', {detail:{x:ev.pageX, y:ev.pageY}})); }));
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width/2,0).attr('class', defaults.classPoints+'_t').mousedown(getMoseDownFunc('t')));
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width,bbox.height/2).attr('class', defaults.classPoints+'_r').mousedown(getMoseDownFunc('r')));
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(bbox.width/2,bbox.height).attr('class', defaults.classPoints+'_b').mousedown(getMoseDownFunc('b')));
+                this.boundingGroup.circles.push(this.boundingGroup.group.circle(defaults.radius).center(0,bbox.height/2).attr('class', defaults.classPoints+'_l').mousedown(getMoseDownFunc('l')));
 
                 this.boundingGroup.circles.forEach(function(c){ c.node.className += ' ' + defaults.classPoints; });
             }
@@ -98,7 +142,6 @@
             this.boundingGroup.attributeObserver = new MutationObserver(function(){
                 bbox = element.bbox();
                 if(element.boundingGroup){
-                    //console.log(element.boundingGroup.group.bbox());
                     element.boundingGroup.group.transform(element.transform()).move(bbox.x, bbox.y);
                     element.boundingGroup.rect.attr({
                         width:bbox.width,
