@@ -28,6 +28,8 @@ You can style the selection with the classes
 - `svg_select_points_r`  - *right*
 - `svg_select_points_b`  - *bottom*
 - `svg_select_points_l`  - *left*
+- `svg_select_points_rot` - *rotation point*
+- `svg_select_points_point` - *deepSelect points*
 
 
 # Options

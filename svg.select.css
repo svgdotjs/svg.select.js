@@ -29,6 +29,10 @@
     fill: #F9FFED;
 }
 
+.svg_select_points_point{
+    cursor: move;
+}
+
 .svg_select_boundingRect{
     stroke-width:1;
     fill:gray;
