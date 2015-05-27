@@ -7,7 +7,7 @@
   ],
   "description": "An extension for svn.js which allows to select elements with mouse",
   "main": [
-    "./dist/svg.select.js"
+    "./dist/svg.select.js",
     "./dist/svg.select.css"
   ],
   "keywords": [
