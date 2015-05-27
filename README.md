@@ -1,7 +1,29 @@
 svg.select.js
 =============
 
-An extension of svn.js which allows to select an element
+An extension of [svn.js](https://github.com/wout/svg.js) which allows to select elements with mouse
+
+# Demo
+
+For a demo see http://fuzzyma.github.io/svg.select.js/
+
+# Get Started
+
+- Install `svg.select.js` using bower:
+
+		bower install svg.select.js
+
+- Include the script after svg.js into your page
+
+		<script src="svg.js"></script>
+		<script src="svg.select.js"></script>
+
+- Select a rectangle using this simple piece of code:
+
+		<div id="myDrawing"></div>
+
+		var drawing = new SVG('myDrawing').size(500, 500);
+		drawing.rect(50,50).select()
 
 # Usage
 
@@ -11,9 +33,15 @@ Select
 	var rect = draw.rect(100,100);
     rect.select();
 
+	// or deepSelect
+	rect.select({deepSelect:true});
+
 Unselect
 
     rect.select(false);
+
+	// or deepSelect
+	rect.select(false, {deepSelect:true});
 
 
 You can style the selection with the classes
