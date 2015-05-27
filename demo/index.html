@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Svg.draw.js : Demo-Page">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="demo.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="svg.select.css">
+    
+    <title>Svg.select.js | Demo-Page</title>
+
+  </head>
+  
+  <body>
+  <div id="container">
+    <h1>svg.select.js - Demo</h1>
+  
+    <div class="box">
+      <h2>Rectangle, normal selection</h2>
+      <code>
+        new SVG('rect').size('100%', '100%')
+            .rect(600,200).move(50,50).select();
+      </code>
+      <div id="rect"></div>
+    </div>
+
+    <div class="box">
+      <h2>Polygon, deep selection</h2>
+      <code>
+        new SVG('polygon_deep').size('100%', '100%')
+            .polygon('350,50 283,250 450,122 250,122 416,250')
+            .select({deepSelect:true});
+      </code>
+      <div id="polygon_deep"></div>
+    </div>
+    
+    <div class="box">
+      <h2>Polygon, both</h2>
+      <code>
+        new SVG('polygon_both').size('100%', '100%')
+            .polygon('350,50 283,250 450,122 250,122 416,250')
+            .select().select({deepSelect:true});
+      </code>
+      <div id="polygon_both"></div>
+    </div>
+    
+    <div class="box">
+      <h2>Polygon, selection on click</h2>
+      <code>
+        var poly = new SVG('polygon_click').size('100%', '100%')
+            .polygon('350,50 283,250 450,122 250,122 416,250')
+            .attr('pointer-events',"visible");
+ 
+        poly.on('mousedown', function(e){
+            poly.select().select({deepSelect:true});
+        }, false);
+      </code>
+      <div id="polygon_click"></div>
+    </div>
+
+  </div>
+    
+    <script src="svg.min.js"></script>
+    <script src="svg.select.min.js"></script>
+    <script>
+        new SVG('rect').size('100%', '100%').rect(600, 200).move(50,50).attr('stroke-width',1).attr('fill','none').select();
+        new SVG('polygon_deep').size('100%', '100%').polygon('350,50 283,250 450,122 250,122 416,250').attr('stroke-width',1).attr('fill','none').select({deepSelect:true});
+        new SVG('polygon_both').size('100%', '100%').polygon('350,50 283,250 450,122 250,122 416,250').attr('stroke-width',1).attr('fill','none').select().select({deepSelect:true});
+        var poly = new SVG('polygon_click').size('100%', '100%').polygon('350,50 283,250 450,122 250,122 416,250').attr('stroke-width',1).attr('fill','none').attr('pointer-events',"visible");
+        
+        poly.on('mousedown', function(e){
+            poly.select().select({deepSelect:true});
+        }, false);
+
+    </script>
+  </body>
+</html>
