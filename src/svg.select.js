@@ -62,8 +62,8 @@
         var bbox = this.el.bbox();
 
         return this.el.type === 'line' ? [
-            [this.el.attr('x1') - bbox.x, this.el.attr('y1')] - bbox.y,
-            [this.el.attr('x2') - bbox.x, this.el.attr('y2')] - bbox.y
+            [this.el.attr('x1') - bbox.x, this.el.attr('y1') - bbox.y],
+            [this.el.attr('x2') - bbox.x, this.el.attr('y2') - bbox.y]
         ] : this.el.array.value.map(function (el) {
             return [el[0] - bbox.x, el[1] - bbox.y];
         });

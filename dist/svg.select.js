@@ -1,20 +1,20 @@
-/*! svg.select.js - v1.0.0 - 2015-05-27
+/*! svg.select.js - v1.0.1 - 2015-06-09
 * https://github.com/Fuzzyma/svg.select.js
 * Copyright (c) 2015 Ulrich-Matthias Schäfer; Licensed MIT */
 /*jshint -W083*/
 ;(function (undefined) {
 
-    function SelectHandler(el){
+    function SelectHandler(el) {
 
         this.el = el;
         this.parent = el.parent._parent(SVG.Nested) || el._parent(SVG.Doc);
         el.remember('_selectHandler', this);
-        this.pointSelection = {isSelected:false};
-        this.rectSelection = {isSelected:false};
+        this.pointSelection = {isSelected: false};
+        this.rectSelection = {isSelected: false};
 
     }
 
-    SelectHandler.prototype.init = function(value, options){
+    SelectHandler.prototype.init = function (value, options) {
 
         var bbox = this.el.bbox();
         this.options = {};
@@ -22,7 +22,7 @@
         // Merging the defaults and the options-object together
         for (var i in this.el.select.defaults) {
             this.options[i] = this.el.select.defaults[i];
-            if(options[i] !== undefined){
+            if (options[i] !== undefined) {
                 this.options[i] = options[i];
             }
         }
@@ -30,9 +30,9 @@
         this.nested = (this.nested || this.parent.nested()).size(bbox.width, bbox.height).transform(this.el.transform).move(bbox.x, bbox.y);
 
         // When deepSelect is enabled and the element is a line/polyline/polygon, draw only points for moving
-        if(this.options.deepSelect && ['line', 'polyline', 'polygon'].indexOf(this.el.type) !== -1){
+        if (this.options.deepSelect && ['line', 'polyline', 'polygon'].indexOf(this.el.type) !== -1) {
             this.selectPoints(value);
-        }else{
+        } else {
             this.selectRect(value);
         }
 
@@ -41,12 +41,14 @@
 
     };
 
-    SelectHandler.prototype.selectPoints = function(value){
+    SelectHandler.prototype.selectPoints = function (value) {
 
         this.pointSelection.isSelected = value;
 
         // When set is already there we dont have to create one
-        if (this.pointSelection.set){ return this; }
+        if (this.pointSelection.set) {
+            return this;
+        }
 
         // Create our set of elements
         this.pointSelection.set = this.parent.set();
@@ -58,13 +60,15 @@
     };
 
     // create the point-array which contains the 2 points of a line or simply the points-array of polyline/polygon
-    SelectHandler.prototype.getPointArray = function(){
+    SelectHandler.prototype.getPointArray = function () {
         var bbox = this.el.bbox();
 
         return this.el.type === 'line' ? [
-                    [this.el.attr('x1')-bbox.x, this.el.attr('y1')]-bbox.y,
-                    [this.el.attr('x2')-bbox.x, this.el.attr('y2')]-bbox.y
-                ] : this.el.array.value.map(function(el){ return [el[0]-bbox.x, el[1]-bbox.y]; });
+            [this.el.attr('x1') - bbox.x, this.el.attr('y1') - bbox.y],
+            [this.el.attr('x2') - bbox.x, this.el.attr('y2') - bbox.y]
+        ] : this.el.array.value.map(function (el) {
+            return [el[0] - bbox.x, el[1] - bbox.y];
+        });
     };
 
     // The function to draw the circles
@@ -88,7 +92,7 @@
                             return function (ev) {
                                 ev = ev || window.event;
                                 ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-                                _this.el.fire('point', {x: ev.pageX, y: ev.pageY, i: k, event:ev});
+                                _this.el.fire('point', {x: ev.pageX, y: ev.pageY, i: k, event: ev});
                             };
                         })(i)
                     )
@@ -102,14 +106,16 @@
         var array = this.getPointArray();
 
         this.pointSelection.set.each(function (i) {
-            if (this.cx() === array[i][0] && this.cy() === array[i][1]){ return; }
+            if (this.cx() === array[i][0] && this.cy() === array[i][1]) {
+                return;
+            }
             this.center(array[i][0], array[i][1]);
         });
     };
-    
-    SelectHandler.prototype.updateRectSelection = function(){
+
+    SelectHandler.prototype.updateRectSelection = function () {
         var bbox = this.el.bbox();
-    
+
         this.rectSelection.set.get(0).attr({
             width: bbox.width,
             height: bbox.height
@@ -132,7 +138,7 @@
         }
     };
 
-    SelectHandler.prototype.selectRect = function(value){
+    SelectHandler.prototype.selectRect = function (value) {
 
         var _this = this, bbox = this.el.bbox();
 
@@ -151,7 +157,7 @@
         }
 
         // create the selection-rectangle and add the css-class
-        if(!this.rectSelection.set.get(0)){
+        if (!this.rectSelection.set.get(0)) {
             this.rectSelection.set.add(this.nested.rect(bbox.width, bbox.height).addClass(this.options.classRect));
         }
 
@@ -186,48 +192,53 @@
 
     };
 
-    SelectHandler.prototype.handler = function(){
+    SelectHandler.prototype.handler = function () {
 
         var bbox = this.el.bbox();
         this.nested.size(bbox.width, bbox.height).transform(this.el.transform()).move(bbox.x, bbox.y);
 
-        if(this.rectSelection.isSelected){
+        if (this.rectSelection.isSelected) {
             this.updateRectSelection();
         }
 
-        if(this.pointSelection.isSelected){
+        if (this.pointSelection.isSelected) {
             this.updatePointSelection();
         }
 
     };
 
-    SelectHandler.prototype.observe = function(){
+    SelectHandler.prototype.observe = function () {
         var _this = this;
 
-        if(MutationObserver){
-            if(this.rectSelection.isSelected || this.pointSelection.isSelected){
-                this.observerInst = this.observerInst || new MutationObserver(function(){ _this.handler(); });
+        if (MutationObserver) {
+            if (this.rectSelection.isSelected || this.pointSelection.isSelected) {
+                this.observerInst = this.observerInst || new MutationObserver(function () {
+                    _this.handler();
+                });
                 this.observerInst.observe(this.el.node, {attributes: true});
-            }else{
-                try{
+            } else {
+                try {
                     this.observerInst.disconnect();
                     delete this.observerInst;
-                }catch(e){}
+                } catch (e) {
+                }
             }
-        }else{
+        } else {
             this.el.off('DOMAttrModified.select');
 
-            if(this.rectSelection.isSelected || this.pointSelection.isSelected){
-                this.el.on('DOMAttrModified.select', function(){ _this.handler(); } );
+            if (this.rectSelection.isSelected || this.pointSelection.isSelected) {
+                this.el.on('DOMAttrModified.select', function () {
+                    _this.handler();
+                });
             }
         }
     };
 
-    SelectHandler.prototype.cleanup = function(){
+    SelectHandler.prototype.cleanup = function () {
 
         //var _this = this;
-    
-        if(!this.rectSelection.isSelected && this.rectSelection.set){
+
+        if (!this.rectSelection.isSelected && this.rectSelection.set) {
             // stop watching the element, remove the selection
             this.rectSelection.set.each(function () {
                 this.remove();
@@ -237,7 +248,7 @@
             delete this.rectSelection.set;
         }
 
-        if(!this.pointSelection.isSelected && this.pointSelection.set){
+        if (!this.pointSelection.isSelected && this.pointSelection.set) {
             // Remove all points, clear the set, stop watching the element
             this.pointSelection.set.each(function () {
                 this.remove();
@@ -247,26 +258,26 @@
             delete this.pointSelection.set;
         }
 
-        if(!this.pointSelection.isSelected && !this.rectSelection.isSelected){
+        if (!this.pointSelection.isSelected && !this.rectSelection.isSelected) {
             this.nested.remove();
             delete this.nested;
-            
+
             /*try{
-                this.observerInst.disconnect();
-                delete this.observerInst;
-            }catch(e){}
-            
-            this.el.off('DOMAttrModified.select');
-            
-        }else{
-        
-            if(MutationObserver){
-                this.observerInst = this.observerInst || new MutationObserver(function(){ _this.handler(); });
-                this.observerInst.observe(this.el.node, {attributes: true});
-            }else{
-                this.el.on('DOMAttrModified.select', function(){ _this.handler(); } )
-            }
-        */
+             this.observerInst.disconnect();
+             delete this.observerInst;
+             }catch(e){}
+
+             this.el.off('DOMAttrModified.select');
+
+             }else{
+
+             if(MutationObserver){
+             this.observerInst = this.observerInst || new MutationObserver(function(){ _this.handler(); });
+             this.observerInst.observe(this.el.node, {attributes: true});
+             }else{
+             this.el.on('DOMAttrModified.select', function(){ _this.handler(); } )
+             }
+             */
         }
     };
 
