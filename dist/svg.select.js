@@ -1,4 +1,4 @@
-/*! svg.select.js - v1.0.1 - 2015-06-21
+/*! svg.select.js - v1.0.2 - 2015-06-21
 * https://github.com/Fuzzyma/svg.select.js
 * Copyright (c) 2015 Ulrich-Matthias Schäfer; Licensed MIT */
 /*jshint -W083*/
