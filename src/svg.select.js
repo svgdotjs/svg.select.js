@@ -5,7 +5,7 @@
     function SelectHandler(el) {
 
         this.el = el;
-        this.parent = el.parent._parent(SVG.Nested) || el._parent(SVG.Doc);
+        this.parent = el._parent(SVG.Nested) || el._parent(SVG.Doc);
         el.remember('_selectHandler', this);
         this.pointSelection = {isSelected: false};
         this.rectSelection = {isSelected: false};
@@ -25,7 +25,7 @@
             }
         }
 
-        this.nested = (this.nested || this.parent.nested()).size(bbox.width, bbox.height).transform(this.el.transform).move(bbox.x, bbox.y);
+        this.nested = (this.nested || this.parent.nested()).size(bbox.width || 1, bbox.height || 1).transform(this.el.transform).move(bbox.x, bbox.y);
 
         // When deepSelect is enabled and the element is a line/polyline/polygon, draw only points for moving
         if (this.options.deepSelect && ['line', 'polyline', 'polygon'].indexOf(this.el.type) !== -1) {
@@ -193,7 +193,7 @@
     SelectHandler.prototype.handler = function () {
 
         var bbox = this.el.bbox();
-        this.nested.size(bbox.width, bbox.height).transform(this.el.transform()).move(bbox.x, bbox.y);
+        this.nested.size(bbox.width || 1, bbox.height || 1).transform(this.el.transform()).move(bbox.x, bbox.y);
 
         if (this.rectSelection.isSelected) {
             this.updateRectSelection();
