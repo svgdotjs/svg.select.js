@@ -149,7 +149,7 @@
             return function (ev) {
                 ev = ev || window.event;
                 ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-                _this.el.fire(eventName, {x: ev.pageX, y: ev.pageY});
+                _this.el.fire(eventName, {x: ev.pageX, y: ev.pageY, event: ev});
             };
         }
 
@@ -182,7 +182,7 @@
                 .mousedown(function (ev) {
                     ev = ev || window.event;
                     ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-                    _this.el.fire('rot', {x: ev.pageX, y: ev.pageY});
+                    _this.el.fire('rot', {x: ev.pageX, y: ev.pageY, event: ev});
                 }));
 
         }
