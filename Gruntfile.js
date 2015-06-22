@@ -77,7 +77,8 @@ module.exports = function(grunt) {
     },
     bumper: {
       options: {
-        files: ['package.json', 'bower.json']
+        files: ['package.json', 'bower.json'],
+        tagName: "%VERSION%"
       }
     },
   });
