@@ -5,7 +5,7 @@
   "authors": [
     "Ulrich-Matthias Schäfer"
   ],
-  "description": "An extension for svn.js which allows to select elements with mouse",
+  "description": "An extension for svg.js which allows to select elements with mouse",
   "main": [
     "./dist/svg.select.js",
     "./dist/svg.select.css"
