@@ -1,6 +1,6 @@
 {
   "name": "svg.select.js",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "An extension of svg.js which allows to select elements with mouse",
   "keywords": [
     "svg.js",
