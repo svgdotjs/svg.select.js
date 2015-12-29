@@ -282,7 +282,7 @@
 
     SVG.extend(SVG.Element, {
         // Select element with mouse
-        select: function (value, options) {
+        selectize: function (value, options) {
 
             // Check the parameters and reassign if needed
             if (typeof value === 'object') {

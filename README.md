@@ -3,6 +3,8 @@ svg.select.js
 
 An extension of [svg.js](https://github.com/wout/svg.js) which allows to select elements with mouse
 
+**Note:** Duo to naming conflicts the exported method was renamed from `select()` to `selectize()`.
+
 # Demo
 
 For a demo see http://fuzzyma.github.io/svg.select.js/
@@ -23,7 +25,7 @@ For a demo see http://fuzzyma.github.io/svg.select.js/
 		<div id="myDrawing"></div>
 
 		var drawing = new SVG('myDrawing').size(500, 500);
-		drawing.rect(50,50).select()
+		drawing.rect(50,50).selectize()
 
 # Usage
 
@@ -31,17 +33,17 @@ Select
 
     var draw = SVG('drawing');
 	var rect = draw.rect(100,100);
-    rect.select();
+    rect.selectize();
 
 	// or deepSelect
-	rect.select({deepSelect:true});
+	rect.selectize({deepSelect:true});
 
 Unselect
 
-    rect.select(false);
+    rect.selectize(false);
 
 	// or deepSelect
-	rect.select(false, {deepSelect:true});
+	rect.selectize(false, {deepSelect:true});
 
 
 You can style the selection with the classes
