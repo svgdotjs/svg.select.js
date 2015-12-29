@@ -25,7 +25,8 @@
             }
         }
 
-        this.nested = (this.nested || this.parent.nested()).size(bbox.width || 1, bbox.height || 1).transform(this.el.ctm()).move(bbox.x, bbox.y);
+        this.nested = (this.nested || this.parent.group());
+        this.nested.matrix(new SVG.Matrix(this.el).translate(bbox.x, bbox.y));
 
         // When deepSelect is enabled and the element is a line/polyline/polygon, draw only points for moving
         if (this.options.deepSelect && ['line', 'polyline', 'polygon'].indexOf(this.el.type) !== -1) {
@@ -190,7 +191,7 @@
     SelectHandler.prototype.handler = function () {
 
         var bbox = this.el.bbox();
-        this.nested.size(bbox.width || 1, bbox.height || 1).transform(this.el.ctm()).move(bbox.x, bbox.y);
+        this.nested.matrix(new SVG.Matrix(this.el).translate(bbox.x, bbox.y));
 
         if (this.rectSelection.isSelected) {
             this.updateRectSelection();
