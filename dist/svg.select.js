@@ -1,4 +1,4 @@
-/*! svg.select.js - v2.0.0 - 2015-12-29
+/*! svg.select.js - v2.0.0 - 2015-12-31
 * https://github.com/Fuzzyma/svg.select.js
 * Copyright (c) 2015 Ulrich-Matthias Schäfer; Licensed MIT */
 /*jshint -W083*/
@@ -20,8 +20,8 @@
         this.options = {};
 
         // Merging the defaults and the options-object together
-        for (var i in this.el.select.defaults) {
-            this.options[i] = this.el.select.defaults[i];
+        for (var i in this.el.selectize.defaults) {
+            this.options[i] = this.el.selectize.defaults[i];
             if (options[i] !== undefined) {
                 this.options[i] = options[i];
             }
@@ -299,7 +299,7 @@
         }
     });
 
-    SVG.Element.prototype.select.defaults = {
+    SVG.Element.prototype.selectize.defaults = {
         points: true,                            // If true, points at the edges are drawn. Needed for resize!
         classRect: 'svg_select_boundingRect',    // Css-class added to the rect
         classPoints: 'svg_select_points',        // Css-class added to the points
