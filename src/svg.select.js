@@ -306,4 +306,4 @@
         deepSelect: false                        // If true, moving of single points is possible (only line, polyline, polyon)
     };
 
-}).call(this);
+})();
