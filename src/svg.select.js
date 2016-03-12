@@ -5,7 +5,7 @@
     function SelectHandler(el) {
 
         this.el = el;
-        this.parent = el.parent(SVG.Nested) || el.parent(SVG.Doc);
+        this.parent = el.parent();
         el.remember('_selectHandler', this);
         this.pointSelection = {isSelected: false};
         this.rectSelection = {isSelected: false};
