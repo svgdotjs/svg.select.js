@@ -75,23 +75,26 @@
         // go through the array of points
         for (var i = 0, len = array.length; i < len; ++i) {
 
+            var curriedEvent = (function (k) {
+                return function (ev) {
+                    ev = ev || window.event;
+                    ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+
+                    var x= ev.pageX || ev.touches[0].pageX;
+                    var y= ev.pageY || ev.touches[0].pageY;
+                    _this.el.fire('point', {x: x, y: y, i: k, event: ev});
+                };
+            })(i);
+
             // add every point to the set
             this.pointSelection.set.add(
-
-                // a circle with our css-classes and a mousedown-event which fires our event for moving points
+                // a circle with our css-classes and a touchstart-event which fires our event for moving points
                 this.nested.circle(this.options.radius)
                     .center(array[i][0], array[i][1])
                     .addClass(this.options.classPoints)
                     .addClass(this.options.classPoints + '_point')
-                    .mousedown(
-                        (function (k) {
-                            return function (ev) {
-                                ev = ev || window.event;
-                                ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-                                _this.el.fire('point', {x: ev.pageX, y: ev.pageY, i: k, event: ev});
-                            };
-                        })(i)
-                    )
+                    .on('touchstart', curriedEvent)
+                    .on('mousedown', curriedEvent)
             );
         }
 
@@ -148,7 +151,10 @@
             return function (ev) {
                 ev = ev || window.event;
                 ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-                _this.el.fire(eventName, {x: ev.pageX, y: ev.pageY, event: ev});
+
+                var x= ev.pageX || ev.touches[0].pageX;
+                var y= ev.pageY || ev.touches[0].pageY;
+                _this.el.fire(eventName, {x: x, y: y, event: ev});
             };
         }
 
@@ -159,15 +165,17 @@
 
         // Draw Points at the edges, if enabled
         if (this.options.points && !this.rectSelection.set.get(1)) {
-            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, 0).attr('class', this.options.classPoints + '_lt').mousedown(getMoseDownFunc('lt')));
-            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, 0).attr('class', this.options.classPoints + '_rt').mousedown(getMoseDownFunc('rt')));
-            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, bbox.height).attr('class', this.options.classPoints + '_rb').mousedown(getMoseDownFunc('rb')));
-            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, bbox.height).attr('class', this.options.classPoints + '_lb').mousedown(getMoseDownFunc('lb')));
+            var ename ="touchstart"
+            var mname = "mousedown"
+            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, 0).attr('class', this.options.classPoints + '_lt').on(mname, getMoseDownFunc('lt')).on(ename, getMoseDownFunc('lt')));
+            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, 0).attr('class', this.options.classPoints + '_rt').on(mname, getMoseDownFunc('rt')).on(ename, getMoseDownFunc('rt')));
+            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, bbox.height).attr('class', this.options.classPoints + '_rb').on(mname, getMoseDownFunc('rb')).on(ename, getMoseDownFunc('rb')));
+            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, bbox.height).attr('class', this.options.classPoints + '_lb').on(mname, getMoseDownFunc('lb')).on(ename, getMoseDownFunc('lb')));
 
-            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width / 2, 0).attr('class', this.options.classPoints + '_t').mousedown(getMoseDownFunc('t')));
-            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, bbox.height / 2).attr('class', this.options.classPoints + '_r').mousedown(getMoseDownFunc('r')));
-            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width / 2, bbox.height).attr('class', this.options.classPoints + '_b').mousedown(getMoseDownFunc('b')));
-            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, bbox.height / 2).attr('class', this.options.classPoints + '_l').mousedown(getMoseDownFunc('l')));
+            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width / 2, 0).attr('class', this.options.classPoints + '_t').on(mname, getMoseDownFunc('t')).on(ename, getMoseDownFunc('t')));
+            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, bbox.height / 2).attr('class', this.options.classPoints + '_r').on(mname, getMoseDownFunc('r')).on(ename, getMoseDownFunc('r')));
+            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width / 2, bbox.height).attr('class', this.options.classPoints + '_b').on(mname, getMoseDownFunc('b')).on(ename, getMoseDownFunc('b')));
+            this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, bbox.height / 2).attr('class', this.options.classPoints + '_l').on(mname, getMoseDownFunc('l')).on(ename, getMoseDownFunc('l')));
 
             this.rectSelection.set.each(function () {
                 this.addClass(_this.options.classPoints);
@@ -177,12 +185,16 @@
         // draw rotationPint, if enabled
         if (this.options.rotationPoint && !this.rectSelection.set.get(9)) {
 
+            var curriedEvent = function (ev) {
+                ev = ev || window.event;
+                ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+
+                var x= ev.pageX || ev.touches[0].pageX;
+                var y= ev.pageY || ev.touches[0].pageY;
+                _this.el.fire('rot', {x: x, y: y, event: ev});
+            };
             this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width / 2, 20).attr('class', this.options.classPoints + '_rot')
-                .mousedown(function (ev) {
-                    ev = ev || window.event;
-                    ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-                    _this.el.fire('rot', {x: ev.pageX, y: ev.pageY, event: ev});
-                }));
+                .on("touchstart", curriedEvent).on("mousedown", curriedEvent));
 
         }
 
