@@ -1,6 +1,6 @@
 {
   "name": "svg.select.js",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "An extension of svg.js which allows to select elements with mouse",
   "keywords": [
     "svg.js",
@@ -16,6 +16,7 @@
     "name": "Ulrich-Matthias Schäfer"
   },
   "homepage": "https://github.com/Fuzzyma/svg.select.js",
+  "main": "dist/svg.select.js",
   "files": [
     "dist/"
   ],
