@@ -130,7 +130,11 @@
         }
 
         if (this.options.rotationPoint) {
-            this.rectSelection.set.get(9).center(bbox.width / 2, 20);
+            if (this.rectSelection.set.members >= 9) {
+                this.rectSelection.set.get(9).center(bbox.width / 2, 20);
+            } else if (this.rectSelection.set.members === 2) {
+                this.rectSelection.set.get(2).center(bbox.width / 2, 20);
+            }
         }
     };
 
