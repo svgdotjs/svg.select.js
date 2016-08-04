@@ -133,10 +133,10 @@
         }
 
         if (this.options.rotationPoint) {
-            if (this.rectSelection.set.members >= 9) {
+            if (this.options.points) {
                 this.rectSelection.set.get(9).center(bbox.width / 2, 20);
-            } else if (this.rectSelection.set.members === 2) {
-                this.rectSelection.set.get(2).center(bbox.width / 2, 20);
+            } else {
+                this.rectSelection.set.get(1).center(bbox.width / 2, 20);
             }
         }
     };
@@ -169,8 +169,7 @@
 
         // Draw Points at the edges, if enabled
         if (this.options.points && !this.rectSelection.set.get(1)) {
-            var ename ="touchstart"
-            var mname = "mousedown"
+            var ename ="touchstart", mname = "mousedown";
             this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, 0).attr('class', this.options.classPoints + '_lt').on(mname, getMoseDownFunc('lt')).on(ename, getMoseDownFunc('lt')));
             this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, 0).attr('class', this.options.classPoints + '_rt').on(mname, getMoseDownFunc('rt')).on(ename, getMoseDownFunc('rt')));
             this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, bbox.height).attr('class', this.options.classPoints + '_rb').on(mname, getMoseDownFunc('rb')).on(ename, getMoseDownFunc('rb')));
@@ -187,7 +186,7 @@
         }
 
         // draw rotationPint, if enabled
-        if (this.options.rotationPoint && !this.rectSelection.set.get(9)) {
+        if (this.options.rotationPoint && ((this.options.points && !this.rectSelection.set.get(9)) || (!this.options.points && !this.rectSelection.set.get(1)))) {
 
             var curriedEvent = function (ev) {
                 ev = ev || window.event;
