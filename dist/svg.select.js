@@ -1,4 +1,4 @@
-/*! svg.select.js - v2.1.0 - 2016-08-04
+/*! svg.select.js - v2.1.0 - 2016-08-05
 * https://github.com/Fuzzyma/svg.select.js
 * Copyright (c) 2016 Ulrich-Matthias Schäfer; Licensed MIT */
 /*jshint -W083*/
@@ -7,7 +7,6 @@
     function SelectHandler(el) {
 
         this.el = el;
-        this.parent = el.parent();
         el.remember('_selectHandler', this);
         this.pointSelection = {isSelected: false};
         this.rectSelection = {isSelected: false};
@@ -27,6 +26,7 @@
             }
         }
 
+        this.parent = this.el.parent();
         this.nested = (this.nested || this.parent.group());
         this.nested.matrix(new SVG.Matrix(this.el).translate(bbox.x, bbox.y));
 

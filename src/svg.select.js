@@ -5,7 +5,6 @@
     function SelectHandler(el) {
 
         this.el = el;
-        this.parent = el.parent();
         el.remember('_selectHandler', this);
         this.pointSelection = {isSelected: false};
         this.rectSelection = {isSelected: false};
@@ -25,6 +24,7 @@
             }
         }
 
+        this.parent = this.el.parent();
         this.nested = (this.nested || this.parent.group());
         this.nested.matrix(new SVG.Matrix(this.el).translate(bbox.x, bbox.y));
 
