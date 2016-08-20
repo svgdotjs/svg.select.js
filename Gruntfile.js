@@ -21,7 +21,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'src/',
           src: ['*.css'],
-          dest: 'dist/',
+          dest: 'dist/'
         }]
       }
     },
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
       dist: {
         src: ['src/<%= fileName %>.js'],
         dest: 'dist/<%= fileName %>.js'
-      },
+      }
     },
     uglify: {
       options: {
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       dist: {
         src: '<%= concat.dist.dest %>',
         dest: 'dist/<%= fileName %>.min.js'
-      },
+      }
     },
     cssmin: {
       target: {
@@ -57,7 +57,8 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
-        jshintrc: true
+        jshintrc: true,
+        reporterOutput: ""
       },
       gruntfile: {
         src: 'Gruntfile.js'
@@ -80,7 +81,7 @@ module.exports = function(grunt) {
         files: ['package.json', 'bower.json'],
         tagName: "%VERSION%"
       }
-    },
+    }
   });
 
   // These plugins provide necessary tasks.

@@ -164,11 +164,14 @@
 
         // create the selection-rectangle and add the css-class
         if (!this.rectSelection.set.get(0)) {
-            this.rectSelection.set.add(this.nested.rect(bbox.width, bbox.height).addClass(this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, 0, 0, bbox.height).stroke({ width: 1 }).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, 0, bbox.width, 0).stroke({ width: 1 }).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(bbox.width, 0, bbox.width, bbox.height).stroke({ width: 1 }).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, bbox.height, bbox.width, bbox.height).stroke({ width: 1 }).addClass(_this.options.classRect));
         }
 
         // Draw Points at the edges, if enabled
-        if (this.options.points && !this.rectSelection.set.get(1)) {
+        if (this.options.points && !this.rectSelection.set.get(4)) {
             var ename ="touchstart", mname = "mousedown";
             this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, 0).attr('class', this.options.classPoints + '_lt').on(mname, getMoseDownFunc('lt')).on(ename, getMoseDownFunc('lt')));
             this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, 0).attr('class', this.options.classPoints + '_rt').on(mname, getMoseDownFunc('rt')).on(ename, getMoseDownFunc('rt')));
@@ -186,7 +189,7 @@
         }
 
         // draw rotationPint, if enabled
-        if (this.options.rotationPoint && ((this.options.points && !this.rectSelection.set.get(9)) || (!this.options.points && !this.rectSelection.set.get(1)))) {
+        if (this.options.rotationPoint && ((this.options.points && !this.rectSelection.set.get(12)) || (!this.options.points && !this.rectSelection.set.get(4)))) {
 
             var curriedEvent = function (ev) {
                 ev = ev || window.event;
