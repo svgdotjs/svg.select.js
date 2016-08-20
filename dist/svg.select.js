@@ -188,10 +188,10 @@
 
         // create the selection-rectangle and add the css-class
         if (!this.rectSelection.set.get(0)) {
-            this.rectSelection.set.add(this.nested.line(0, 0, 0, bbox.height).stroke({ width: 1 }).addClass(_this.options.classRect));
-            this.rectSelection.set.add(this.nested.line(0, 0, bbox.width, 0).stroke({ width: 1 }).addClass(_this.options.classRect));
-            this.rectSelection.set.add(this.nested.line(bbox.width, 0, bbox.width, bbox.height).stroke({ width: 1 }).addClass(_this.options.classRect));
-            this.rectSelection.set.add(this.nested.line(0, bbox.height, bbox.width, bbox.height).stroke({ width: 1 }).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, 0, 0, bbox.height).stroke({width: 1}).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, 0, bbox.width, 0).stroke({width: 1}).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(bbox.width, 0, bbox.width, bbox.height).stroke({width: 1}).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, bbox.height, bbox.width, bbox.height).stroke({width: 1}).addClass(_this.options.classRect));
         }
 
         // Draw Points at the edges, if enabled
