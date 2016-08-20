@@ -118,27 +118,49 @@
         var bbox = this.el.bbox();
 
         this.rectSelection.set.get(0).attr({
-            width: bbox.width,
-            height: bbox.height
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: bbox.height
         });
 
-        // set.get(1) is always in the upper left corner. no need to move it
-        if (this.options.points) {
-            this.rectSelection.set.get(2).center(bbox.width, 0);
-            this.rectSelection.set.get(3).center(bbox.width, bbox.height);
-            this.rectSelection.set.get(4).center(0, bbox.height);
+        this.rectSelection.set.get(1).attr({
+            x1: 0,
+            y1: 0,
+            x2: bbox.width,
+            y2: 0
+        });
 
-            this.rectSelection.set.get(5).center(bbox.width / 2, 0);
-            this.rectSelection.set.get(6).center(bbox.width, bbox.height / 2);
-            this.rectSelection.set.get(7).center(bbox.width / 2, bbox.height);
-            this.rectSelection.set.get(8).center(0, bbox.height / 2);
+        this.rectSelection.set.get(2).attr({
+            x1: bbox.width,
+            y1: 0,
+            x2: bbox.width,
+            y2: bbox.height
+        });
+
+        this.rectSelection.set.get(3).attr({
+            x1: 0,
+            y1: bbox.height,
+            x2: bbox.width,
+            y2: bbox.height
+        });
+
+        if (this.options.points) {
+            this.rectSelection.set.get(5).center(bbox.width, 0);
+            this.rectSelection.set.get(6).center(bbox.width, bbox.height);
+            this.rectSelection.set.get(7).center(0, bbox.height);
+
+            this.rectSelection.set.get(8).center(bbox.width / 2, 0);
+            this.rectSelection.set.get(9).center(bbox.width, bbox.height / 2);
+            this.rectSelection.set.get(10).center(bbox.width / 2, bbox.height);
+            this.rectSelection.set.get(11).center(0, bbox.height / 2);
         }
 
         if (this.options.rotationPoint) {
             if (this.options.points) {
-                this.rectSelection.set.get(9).center(bbox.width / 2, 20);
+                this.rectSelection.set.get(12).center(bbox.width / 2, 20);
             } else {
-                this.rectSelection.set.get(1).center(bbox.width / 2, 20);
+                this.rectSelection.set.get(4).center(bbox.width / 2, 20);
             }
         }
     };
