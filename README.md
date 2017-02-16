@@ -1,13 +1,13 @@
 svg.select.js
 =============
 
-An extension of [svg.js](https://github.com/wout/svg.js) which allows to select elements with mouse
+An extension of [svg.js](https://github.com/svgdotjs/svg.js) which allows to select elements with mouse
 
 **Note:** Duo to naming conflicts the exported method was renamed from `select()` to `selectize()`.
 
 # Demo
 
-For a demo see http://fuzzyma.github.io/svg.select.js/
+For a demo see http://svgdotjs.github.io/svg.select.js/
 
 # Get Started
 
