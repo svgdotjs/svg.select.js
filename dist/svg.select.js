@@ -1,4 +1,4 @@
-/*! svg.select.js - v2.1.1 - 2016-08-05
+/*! svg.select.js - v2.1.1 - 2016-08-20
 * https://github.com/Fuzzyma/svg.select.js
 * Copyright (c) 2016 Ulrich-Matthias Schäfer; Licensed MIT */
 /*jshint -W083*/
@@ -118,27 +118,49 @@
         var bbox = this.el.bbox();
 
         this.rectSelection.set.get(0).attr({
-            width: bbox.width,
-            height: bbox.height
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: bbox.height
         });
 
-        // set.get(1) is always in the upper left corner. no need to move it
-        if (this.options.points) {
-            this.rectSelection.set.get(2).center(bbox.width, 0);
-            this.rectSelection.set.get(3).center(bbox.width, bbox.height);
-            this.rectSelection.set.get(4).center(0, bbox.height);
+        this.rectSelection.set.get(1).attr({
+            x1: 0,
+            y1: 0,
+            x2: bbox.width,
+            y2: 0
+        });
 
-            this.rectSelection.set.get(5).center(bbox.width / 2, 0);
-            this.rectSelection.set.get(6).center(bbox.width, bbox.height / 2);
-            this.rectSelection.set.get(7).center(bbox.width / 2, bbox.height);
-            this.rectSelection.set.get(8).center(0, bbox.height / 2);
+        this.rectSelection.set.get(2).attr({
+            x1: bbox.width,
+            y1: 0,
+            x2: bbox.width,
+            y2: bbox.height
+        });
+
+        this.rectSelection.set.get(3).attr({
+            x1: 0,
+            y1: bbox.height,
+            x2: bbox.width,
+            y2: bbox.height
+        });
+
+        if (this.options.points) {
+            this.rectSelection.set.get(5).center(bbox.width, 0);
+            this.rectSelection.set.get(6).center(bbox.width, bbox.height);
+            this.rectSelection.set.get(7).center(0, bbox.height);
+
+            this.rectSelection.set.get(8).center(bbox.width / 2, 0);
+            this.rectSelection.set.get(9).center(bbox.width, bbox.height / 2);
+            this.rectSelection.set.get(10).center(bbox.width / 2, bbox.height);
+            this.rectSelection.set.get(11).center(0, bbox.height / 2);
         }
 
         if (this.options.rotationPoint) {
             if (this.options.points) {
-                this.rectSelection.set.get(9).center(bbox.width / 2, 20);
+                this.rectSelection.set.get(12).center(bbox.width / 2, 20);
             } else {
-                this.rectSelection.set.get(1).center(bbox.width / 2, 20);
+                this.rectSelection.set.get(4).center(bbox.width / 2, 20);
             }
         }
     };
@@ -166,11 +188,14 @@
 
         // create the selection-rectangle and add the css-class
         if (!this.rectSelection.set.get(0)) {
-            this.rectSelection.set.add(this.nested.rect(bbox.width, bbox.height).addClass(this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, 0, 0, bbox.height).stroke({width: 1}).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, 0, bbox.width, 0).stroke({width: 1}).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(bbox.width, 0, bbox.width, bbox.height).stroke({width: 1}).addClass(_this.options.classRect));
+            this.rectSelection.set.add(this.nested.line(0, bbox.height, bbox.width, bbox.height).stroke({width: 1}).addClass(_this.options.classRect));
         }
 
         // Draw Points at the edges, if enabled
-        if (this.options.points && !this.rectSelection.set.get(1)) {
+        if (this.options.points && !this.rectSelection.set.get(4)) {
             var ename ="touchstart", mname = "mousedown";
             this.rectSelection.set.add(this.nested.circle(this.options.radius).center(0, 0).attr('class', this.options.classPoints + '_lt').on(mname, getMoseDownFunc('lt')).on(ename, getMoseDownFunc('lt')));
             this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width, 0).attr('class', this.options.classPoints + '_rt').on(mname, getMoseDownFunc('rt')).on(ename, getMoseDownFunc('rt')));
@@ -188,7 +213,7 @@
         }
 
         // draw rotationPint, if enabled
-        if (this.options.rotationPoint && ((this.options.points && !this.rectSelection.set.get(9)) || (!this.options.points && !this.rectSelection.set.get(1)))) {
+        if (this.options.rotationPoint && ((this.options.points && !this.rectSelection.set.get(12)) || (!this.options.points && !this.rectSelection.set.get(4)))) {
 
             var curriedEvent = function (ev) {
                 ev = ev || window.event;
