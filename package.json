@@ -18,6 +18,9 @@
   "files": [
     "dist/"
   ],
+  "scripts": {
+    "build": "gulp"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/svgdotjs/svg.select.js.git"
