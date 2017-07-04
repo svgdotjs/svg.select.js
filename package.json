@@ -9,9 +9,7 @@
   ],
   "bugs": "https://github.com/svgdotjs/svg.select.js/issues",
   "license": "MIT",
-  "author": {
-    "name": "Ulrich-Matthias Schäfer"
-  },
+  "author": "Ulrich-Matthias Schäfer",
   "contributors": {
     "name": "Ulrich-Matthias Schäfer"
   },
@@ -28,17 +26,18 @@
     "node": ">= 0.8.0"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-uglify": "~0.2.0",
-    "grunt-contrib-watch": "~0.4.0",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-cssmin": "^0.12.1",
-    "grunt-contrib-copy": "^0.7.0",
-    "grunt": "~0.4.5",
-    "grunt-bumper": "^1.0.4"
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "3.5.0",
+    "gulp-header": "^1.8.8",
+    "gulp-iife": "^0.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-standard": "^10.0.0",
+    "gulp-trimlines": "^1.0.1",
+    "gulp-uglify": "^2.1.2",
+    "gulp-wrap-iife": "0.0.1"
   },
   "dependencies": {
-    "svg.js":"^2.2.5"
+    "svg.js": "^2.2.5"
   }
 }
