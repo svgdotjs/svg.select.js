@@ -90,8 +90,8 @@ You can style the selection with the classes
 
 # Options
 
-- points: Points should be drawn (default `[]`)
-- pointsExclude: Same as points option, only thing that this excludes listed points, you can use
+- points: Points should be drawn (default `['lt', 'rt', 'rb', 'lb', 't', 'r', 'b', 'l']`)
+- pointsExclude: Same as points option, only thing that this excludes listed points, you can use (default `[]`)
 - classRect: Classname of the rect from the bounding Box (default `svg_select_boundingRect`)
 - classPoints: Classname/Prefix of the Points (default `svg_select_points`)
 - radius: Radius of the points (default `7`)
