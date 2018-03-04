@@ -361,7 +361,7 @@ SVG.extend(SVG.Element, {
 
 SVG.Element.prototype.selectize.defaults = {
     points: ['lt', 'rt', 'rb', 'lb', 't', 'r', 'b', 'l'],    // which points to draw, default all
-    pointsExclude: '',                       // easier option if to exclude few than rewrite all
+    pointsExclude: [],                       // easier option if to exclude few than rewrite all
     classRect: 'svg_select_boundingRect',    // Css-class added to the rect
     classPoints: 'svg_select_points',        // Css-class added to the points
     radius: 7,                               // radius of the points
