@@ -29,15 +29,15 @@
     "node": ">= 0.8.0"
   },
   "devDependencies": {
-    "del": "^2.2.2",
+    "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-clean-css": "3.5.0",
-    "gulp-header": "^1.8.8",
+    "gulp-clean-css": "3.9.2",
+    "gulp-header": "^2.0.1",
     "gulp-iife": "^0.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-standard": "^10.0.0",
     "gulp-trimlines": "^1.0.1",
-    "gulp-uglify": "^2.1.2",
+    "gulp-uglify": "^3.0.0",
     "gulp-wrap-iife": "0.0.1"
   },
   "dependencies": {
