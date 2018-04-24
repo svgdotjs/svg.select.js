@@ -130,8 +130,8 @@ SelectHandler.prototype.selectPoints = function (value) {
 
     // Create our set of elements
     this.pointSelection.set = this.parent.set();
-    // draw the circles and mark the element as selected
-    this.drawCircles();
+    // draw the points and mark the element as selected
+    this.drawPoints();
 
     return this;
 
@@ -146,8 +146,8 @@ SelectHandler.prototype.getPointArray = function () {
     });
 };
 
-// The function to draw the circles
-SelectHandler.prototype.drawCircles = function () {
+// Draws a points
+SelectHandler.prototype.drawPoints = function () {
 
     var _this = this, array = this.getPointArray();
 
@@ -167,20 +167,43 @@ SelectHandler.prototype.drawCircles = function () {
         })(i);
 
         // add every point to the set
-        this.pointSelection.set.add(
-            // a circle with our css-classes and a touchstart-event which fires our event for moving points
-            this.nested.circle(this.options.radius)
-                .center(array[i][0], array[i][1])
-                .addClass(this.options.classPoints)
-                .addClass(this.options.classPoints + '_point')
-                .on('touchstart', curriedEvent)
-                .on('mousedown', curriedEvent)
-        );
+        // add css-classes and a touchstart-event which fires our event for moving points
+        var point = this.drawPoint(array[i][0], array[i][1])
+                        .addClass(this.options.classPoints)
+                        .addClass(this.options.classPoints + '_point')
+                        .on('touchstart', curriedEvent)
+                        .on('mousedown', curriedEvent)
+        this.pointSelection.set.add(point);
     }
-
 };
 
-// every time a circle is moved, we have to update the positions of our circle
+// The function to draw single point
+SelectHandler.prototype.drawPoint = function (cx, cy) {
+    var pointType = this.options.pointType;
+
+    switch (pointType) {
+        case 'circle':
+            return this.drawCircle(cx, cy);
+        case 'rect':
+            return this.drawRect(cx, cy);
+        default:
+            throw 'Unknown ' + pointType + ' point type!'
+    }
+};
+
+// The function to draw the circle point
+SelectHandler.prototype.drawCircle = function (cx, cy) {
+    return this.nested.circle(this.options.radius)
+                      .center(cx, cy);
+};
+
+// The function to draw the rect point
+SelectHandler.prototype.drawRect = function (cx, cy) {
+    return this.nested.rect(this.options.rectSize, this.options.rectSize)
+                      .center(cx, cy);
+};
+
+// every time a point is moved, we have to update the positions of our point
 SelectHandler.prototype.updatePointSelection = function () {
     var array = this.getPointArray();
 
@@ -248,9 +271,13 @@ SelectHandler.prototype.selectRect = function (value) {
         var ename ="touchstart", mname = "mousedown";
 
         this.options.points.map(function (point, index) {
-          var coords = _this.pointCoords(point, bbox);
+            var coords = _this.pointCoords(point, bbox);
 
-          _this.rectSelection.set.add(_this.nested.circle(_this.options.radius).center(coords.x, coords.y).attr('class', _this.options.classPoints + '_' + point).on(mname, getMoseDownFunc(point)).on(ename, getMoseDownFunc(point)));
+            var pointElement = _this.drawPoint(coords.x, coords.y)
+                                    .attr('class', _this.options.classPoints + '_' + point)
+                                    .on(mname, getMoseDownFunc(point))
+                                    .on(ename, getMoseDownFunc(point));
+            _this.rectSelection.set.add(pointElement);
         });
 
         this.rectSelection.set.each(function () {
@@ -270,9 +297,12 @@ SelectHandler.prototype.selectRect = function (value) {
             var y = ev.pageY || ev.touches[0].pageY;
             _this.el.fire('rot', {x: x, y: y, event: ev});
         };
-        this.rectSelection.set.add(this.nested.circle(this.options.radius).center(bbox.width / 2, 20).attr('class', this.options.classPoints + '_rot')
-            .on("touchstart", curriedEvent).on("mousedown", curriedEvent));
 
+        var pointElement = this.drawPoint(bbox.width / 2, 20)
+                              .attr('class', this.options.classPoints + '_rot')
+                              .on("touchstart", curriedEvent)
+                              .on("mousedown", curriedEvent);
+        this.rectSelection.set.add(pointElement);
     }
 
 };
@@ -375,8 +405,10 @@ SVG.Element.prototype.selectize.defaults = {
     pointsExclude: [],                       // easier option if to exclude few than rewrite all
     classRect: 'svg_select_boundingRect',    // Css-class added to the rect
     classPoints: 'svg_select_points',        // Css-class added to the points
-    radius: 7,                               // radius of the points
+    radius: 7,                               // radius of the points, only for pointType: 'circle'
+    rectSize: 8,                             // size of rect points, only for pointType: 'rect'
     rotationPoint: true,                     // If true, rotation point is drawn. Needed for rotation!
-    deepSelect: false                        // If true, moving of single points is possible (only line, polyline, polyon)
+    deepSelect: false,                       // If true, moving of single points is possible (only line, polyline, polyon)
+    pointType: 'circle'                      // Point type: circle or rect, default circle
 };
 }());
