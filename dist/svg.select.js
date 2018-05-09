@@ -187,19 +187,23 @@ SelectHandler.prototype.drawPoint = function (cx, cy) {
         case 'rect':
             return this.drawRect(cx, cy);
         default:
-            throw 'Unknown ' + pointType + ' point type!'
+            if (typeof pointType === 'function') {
+                return pointType.call(this, cx, cy);
+            }
+
+            throw new Error('Unknown ' + pointType + ' point type!');
     }
 };
 
 // The function to draw the circle point
 SelectHandler.prototype.drawCircle = function (cx, cy) {
-    return this.nested.circle(this.options.radius)
+    return this.nested.circle(this.options.pointSize)
                       .center(cx, cy);
 };
 
 // The function to draw the rect point
 SelectHandler.prototype.drawRect = function (cx, cy) {
-    return this.nested.rect(this.options.rectSize, this.options.rectSize)
+    return this.nested.rect(this.options.pointSize, this.options.pointSize)
                       .center(cx, cy);
 };
 
@@ -405,8 +409,7 @@ SVG.Element.prototype.selectize.defaults = {
     pointsExclude: [],                       // easier option if to exclude few than rewrite all
     classRect: 'svg_select_boundingRect',    // Css-class added to the rect
     classPoints: 'svg_select_points',        // Css-class added to the points
-    radius: 7,                               // radius of the points, only for pointType: 'circle'
-    rectSize: 8,                             // size of rect points, only for pointType: 'rect'
+    pointSize: 7,                            // size of point
     rotationPoint: true,                     // If true, rotation point is drawn. Needed for rotation!
     deepSelect: false,                       // If true, moving of single points is possible (only line, polyline, polyon)
     pointType: 'circle'                      // Point type: circle or rect, default circle
