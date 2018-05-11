@@ -94,6 +94,7 @@ You can style the selection with the classes
 - pointsExclude: Same as points option, only thing that this excludes listed points, you can use (default `[]`)
 - classRect: Classname of the rect from the bounding Box (default `svg_select_boundingRect`)
 - classPoints: Classname/Prefix of the Points (default `svg_select_points`)
-- radius: Radius of the points (default `7`)
+- pointSize: Size of the point. Radius for the `pointType: 'circle'` or size of a rect for `pointType: 'rect'` (default `7`)
 - rotationPoint: Draws the point for doing rotation (default `true`)
 - deepSelect: Only for polygon/polyline/line. Selects the points itself (default `false`)
+- pointType: Type of a point, `circle` or `rect` or function (see functions for drawing [circle](src/svg.select.js#L188) or [rect](src/svg.select.js#L194) points) (default `circle`)
