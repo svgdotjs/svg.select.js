@@ -228,7 +228,7 @@ SelectHandler.prototype.updateRectSelection = function () {
     if (this.options.rotationPoint) {
         var length = this.rectSelection.set.length();
         
-        this.rectSelection.set.get(length - 1).center(bbox.width / 2, 20);
+        this.rectSelection.set.get(length - 1).center(bbox.width / 2 + this.options.rotationOffset[0], this.options.rotationOffset[1]);
     }
 };
 
@@ -291,7 +291,7 @@ SelectHandler.prototype.selectRect = function (value) {
             _this.el.fire('rot', {x: x, y: y, event: ev});
         };
 
-        var pointElement = this.drawPoint(bbox.width / 2, 20)
+        var pointElement = this.drawRotation(bbox.width / 2 + this.options.rotationOffset[0], this.options.rotationOffset[1])
                               .attr('class', this.options.classPoints + '_rot')
                               .on("touchstart", curriedEvent)
                               .on("mousedown", curriedEvent);
@@ -299,6 +299,14 @@ SelectHandler.prototype.selectRect = function (value) {
     }
 
 };
+
+SelectHandler.prototype.drawRotation = function(x, y) {
+  if (!this.options.rotationIcon) {
+    return this.drawPoint(x, y);
+  }
+  return this.nested.image(this.options.rotationIcon, this.options.rotationIconLength, this.options.rotationIconLength)
+    .center(x, y);
+}
 
 SelectHandler.prototype.handler = function () {
 
@@ -401,5 +409,8 @@ SVG.Element.prototype.selectize.defaults = {
     pointSize: 7,                            // size of point
     rotationPoint: true,                     // If true, rotation point is drawn. Needed for rotation!
     deepSelect: false,                       // If true, moving of single points is possible (only line, polyline, polyon)
+    rotationIcon: '',                        // If set, rotation point will be drawn with the given image path
+    rotationIconLength: 5,                   // If set with rotationIcon, rotation icon will be drawn with given length
+    rotationOffset: [0, 20],                 // If set, will specify x and y offsets for the rotation point
     pointType: 'circle'                      // Point type: circle or rect, default circle
 };
