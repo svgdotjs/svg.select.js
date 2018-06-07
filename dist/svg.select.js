@@ -1,6 +1,6 @@
 /*!
 * svg.select.js - An extension of svg.js which allows to select elements with mouse
-* @version 2.1.2
+* @version 3.0.0
 * https://github.com/svgdotjs/svg.select.js
 *
 * @copyright Ulrich-Matthias Schäfer
