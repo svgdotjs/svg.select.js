@@ -11,23 +11,25 @@ function SelectHandler(el) {
       rt: [ 'width', 0 ],
       rb: [ 'width', 'height' ],
       lb: [ 0, 'height' ],
-      t: [ 'width / 2', 0 ],
-      r: [ 'width', 'height / 2' ],
-      b: [ 'width / 2', 'height' ],
-      l: [ 0, 'height / 2' ]
+      t: [ 'width', 0 ],
+      r: [ 'width', 'height' ],
+      b: [ 'width', 'height' ],
+      l: [ 0, 'height' ]
     };
 
-    // helper function to evaluate point coordinates based on settings above and an object (bbox in our case)
-    this.pointCoord = function (setting, object) {
-      return typeof setting !== 'string' ? setting : eval('object.' + setting)
+    // helper function to get point coordinates based on settings above and an object (bbox in our case)
+    this.pointCoord = function (setting, object, isPointCentered) {
+      var coord = typeof setting !== 'string' ? setting : object[setting];
+      // Top, bottom, right and left points are placed in the center of element width/height
+      return isPointCentered ? coord / 2 : coord
     }
 
     this.pointCoords = function (point, object) {
       var settings = this.pointsList[point];
 
       return {
-        x: this.pointCoord(settings[0], object),
-        y: this.pointCoord(settings[1], object)
+        x: this.pointCoord(settings[0], object, (point === 't' || point === 'b')),
+        y: this.pointCoord(settings[1], object, (point === 'r' || point === 'l'))
       }
     }
 }
