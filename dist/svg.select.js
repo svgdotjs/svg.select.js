@@ -200,13 +200,17 @@ SelectHandler.prototype.drawPoint = function (cx, cy) {
 // The function to draw the circle point
 SelectHandler.prototype.drawCircle = function (cx, cy) {
     return this.nested.circle(this.options.pointSize)
-                      .center(cx, cy);
+    .stroke(this.options.pointStroke)
+    .fill(this.options.pointFill)
+    .center(cx, cy);
 };
 
 // The function to draw the rect point
 SelectHandler.prototype.drawRect = function (cx, cy) {
     return this.nested.rect(this.options.pointSize, this.options.pointSize)
-                      .center(cx, cy);
+        .stroke(this.options.pointStroke)
+        .fill(this.options.pointFill)
+        .center(cx, cy);
 };
 
 // every time a point is moved, we have to update the positions of our point
@@ -414,6 +418,8 @@ SVG.Element.prototype.selectize.defaults = {
     pointSize: 7,                            // size of point
     rotationPoint: true,                     // If true, rotation point is drawn. Needed for rotation!
     deepSelect: false,                       // If true, moving of single points is possible (only line, polyline, polyon)
-    pointType: 'circle'                      // Point type: circle or rect, default circle
+    pointType: 'circle',                     // Point type: circle or rect, default circle
+    pointFill: "#000",                       // Point fill color
+    pointStroke: { width: 1, color: "#000" } // Point stroke properties
 };
 }());
