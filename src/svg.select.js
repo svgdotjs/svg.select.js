@@ -1,7 +1,5 @@
 import { Element, extend, G, Point } from '@svgdotjs/svg.js'
 
-// const MutationObserver = window.MutationObserver
-
 function getMoseDownFunc (eventName, el) {
   return function (ev) {
     ev.preventDefault()
@@ -18,12 +16,18 @@ class SelectHandler {
     this.el = el
     el.remember('_selectHandler', this)
     this.selection = new G()
+    this.order = ['lt', 't', 'rt', 'r', 'rb', 'b', 'lb', 'l']
+    this.orginalPoints = []
+    this.points = []
+    this.mutationHandler = this.mutationHandler.bind(this)
+    this.observer = new window.MutationObserver(this.mutationHandler)
   }
 
   init (value) {
     // Disable selection
     if (!value) {
       this.selection.clear().remove()
+      this.observer.disconnect()
       return
     }
 
@@ -32,23 +36,36 @@ class SelectHandler {
       this.el.root().put(this.selection)
     }
 
+    this.updatePoints()
+
+    // First transform all points, then draw polygon out of it
+    this.selection.polygon(this.points.map(el => [el.x, el.y])).stroke('black').fill('none')
+
+    // Check if user wants to create the handles on its own
+    if (!this.el.dispatch('create_handles', this).defaultPrevented) {
+      this.handles = this.points.map((p, index) => {
+        var c = this.selection.circle(5).center(p.x, p.y)
+        c.on('mousedown.selection touchstart.selection', getMoseDownFunc(this.order[index], this.el))
+        return c
+      })
+    }
+
+    this.observer.observe(this.el.node, { attributes: true })
+  }
+
+  updatePoints () {
     // Transform elements bounding box into correct space
     const parent = this.selection.parent()
 
-    // Thats the matrix of the element we want to select
-    // const elMatrix = new Matrix(this.el)
-
     // This is the matrix from the elements space to the space of the ui
-    const matrixToSelection = this.el.screenCTM().multiply(parent.screenCTM().inverse())
-
-    // This is the matrix which combines both
-    // const final = elMatrix.multiply(matrixToSelection)
+    const fromShapeToUiMatrix = this.el.screenCTM().multiplyO(parent.screenCTM().inverseO())
 
     // Get every point of the bounding box
     // Note that these points dont have the elements transform applied (elMatrix)
     // Thats why we have to transform these points manually before bringing them into the new ui space
     const { x, x2, y, y2, cx, cy } = this.el.bbox()
-    this.points = [
+
+    this.orginalPoints = [
       new Point(x, y),
       new Point(cx, y),
       new Point(x2, y),
@@ -57,19 +74,18 @@ class SelectHandler {
       new Point(cx, y2),
       new Point(x, y2),
       new Point(x, cy)
-    ].map((p) => p.transform(matrixToSelection))
+    ]
 
-    this.order = ['lt', 't', 'rt', 'r', 'rb', 'b', 'lb', 'l']
+    this.points = this.orginalPoints.map((p) => p.transform(fromShapeToUiMatrix))
+  }
 
-    // First transform all points, then draw polygon out of it
-    this.selection.polygon(this.points.map(el => [el.x, el.y])).stroke('black').fill('none')
+  mutationHandler () {
+    this.updatePoints()
+    this.selection.get(0).plot(this.points.map(el => [el.x, el.y]))
 
-    // Check if user wants to create the handles on its own
-    if (!this.el.dispatch('create_handles', this).defaultPrevented) {
-      this.points.forEach((p, index) => {
-        var c = this.selection.circle(5).center(p.x, p.y)
-        // c.on('selection.mousedown selection.touchstart', getMoseDownFunc(this.order[index], this.el))
-        c.on('mousedown.selection touchstart.selection', getMoseDownFunc(this.order[index], this.el))
+    if (!this.el.dispatch('update_handles', this).defaultPrevented) {
+      this.handles.forEach((c, index) => {
+        c.center(this.points[index].x, this.points[index].y)
       })
     }
   }
