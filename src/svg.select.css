@@ -1,4 +1,24 @@
-.svg_select_points_lt{
+
+
+.selection_border {
+  fill: none;
+  stroke: black;
+  stroke-width:1;
+}
+
+.selection_handle_shear {
+  fill: white;
+  stroke: black;
+  stroke-width:1;
+}
+
+.selection_handle_rot {
+  fill: white;
+  stroke: black;
+  stroke-width:1;
+}
+
+/* .svg_select_points_lt{
     cursor: nw-resize;
 }
 .svg_select_points_rt{
@@ -41,4 +61,4 @@
     stroke-opacity:0.8;
     fill-opacity:0.1;
     pointer-events:none; /* This ons is needed if you want to deselect or drag the shape*/
-}
+/*} */

@@ -49,7 +49,7 @@ const config = (node, min) => ({
       : min ? './dist/svg.select.min.js'
         : './dist/svg.select.js',
     format: node ? 'cjs' : 'iife',
-    // name: 'SVG.Filter',
+    name: 'SVG.SelectHandler',
     sourcemap: true,
     banner: headerLong,
     // remove Object.freeze
