@@ -15,7 +15,11 @@
     "name": "Ulrich-Matthias Schäfer"
   },
   "homepage": "https://github.com/svgdotjs/svg.select.js",
-  "main": "dist/svg.select.js",
+  "main": "dist/svg.select.node.js",
+  "unpkg": "dist/svg.select.min.js",
+  "jsdelivr": "dist/svg.select.min.js",
+  "browser": "src/svg.select.js",
+  "module": "src/svg.select.js",
   "files": [
     "/dist",
     "/src",
