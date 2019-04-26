@@ -121,7 +121,8 @@ class SelectHandler {
     const parent = this.selection.parent()
 
     // This is the matrix from the elements space to the space of the ui
-    const fromShapeToUiMatrix = this.el.screenCTM().multiplyO(parent.screenCTM().inverseO())
+    // const fromShapeToUiMatrix = this.el.screenCTM().multiplyO(parent.screenCTM().inverseO())
+    const fromShapeToUiMatrix = parent.screenCTM().inverseO().multiplyO(this.el.screenCTM())
 
     this.orginalPoints = this.getPoints()
     this.points = this.orginalPoints.map((p) => p.transform(fromShapeToUiMatrix))
