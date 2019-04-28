@@ -40,7 +40,7 @@ class SelectHandler {
     return ['lt', 't', 'rt', 'r', 'rb', 'b', 'lb', 'l', 'rot', 'shear']
   }
 
-  value (val) {
+  active (val) {
     // Disable selection
     if (!val) {
       this.selection.clear().remove()
@@ -67,7 +67,7 @@ class SelectHandler {
 
   createResizeHandles () {
     this.points.slice(0, this.order.indexOf('rot')).forEach((p, index) => {
-      this.selection.circle(5)
+      this.selection.circle(10)
         .addClass('selection_handle_' + this.order[index])
         .on('mousedown.selection touchstart.selection', getMoseDownFunc(this.order[index], this.el))
     })
@@ -141,9 +141,9 @@ class SelectHandler {
       new Point(cx, y2),
       new Point(x, y2),
       new Point(x, cy),
-      new Point(cx, y - Math.min((1 / 5 * (y2 - y)), 20)),
-      new Point(x2 - 20, y - Math.min((1 / 20 * (y2 - y)), 5)),
-      new Point(x2, y - Math.min((1 / 20 * (y2 - y)), 5))
+      new Point(cx, y - 20),
+      new Point(x2 - 20, y - 5),
+      new Point(x2, y - 5)
     ]
   }
 
@@ -524,14 +524,14 @@ class SelectHandler {
 //
 extend(Element, {
   // Select element with mouse
-  selectize: function (value = true) {
+  selectize: function (enabled = true) {
     var selectHandler = this.remember('_selectHandler')
 
     if (!selectHandler) {
-      if (value instanceof SelectHandler) {
+      if (enabled.prototype instanceof SelectHandler) {
         /* eslint new-cap: ["error", { "newIsCap": false }] */
-        selectHandler = new value(this)
-        value = true
+        selectHandler = new enabled(this)
+        enabled = true
       } else {
         selectHandler = new SelectHandler(this)
       }
@@ -539,23 +539,10 @@ extend(Element, {
       this.remember('_selectHandler', selectHandler)
     }
 
-    selectHandler.value(value)
+    selectHandler.active(enabled)
 
     return this
   }
 })
 
 export default SelectHandler
-//
-// Element.prototype.selectize.defaults = {
-//   points: ['lt', 'rt', 'rb', 'lb', 't', 'r', 'b', 'l'], // which points to draw, default all
-//   pointsExclude: [], // easier option if to exclude few than rewrite all
-//   classRect: 'svg_select_boundingRect', // Css-class added to the rect
-//   classPoints: 'svg_select_points', // Css-class added to the points
-//   pointSize: 7, // size of point
-//   rotationPoint: true, // If true, rotation point is drawn. Needed for rotation!
-//   deepSelect: false, // If true, moving of single points is possible (only line, polyline, polyon)
-//   pointType: 'circle', // Point type: circle or rect, default circle
-//   pointFill: '#000', // Point fill color
-//   pointStroke: { width: 1, color: '#000' } // Point stroke properties
-// }
