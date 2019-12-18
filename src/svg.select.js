@@ -99,8 +99,9 @@ SelectHandler.prototype.init = function (value, options) {
     this.nested.matrix(new SVG.Matrix(this.el).translate(bbox.x, bbox.y));
 
     // When deepSelect is enabled and the element is a line/polyline/polygon, draw only points for moving
-    var onlyforMoving = this.options.deepSelect && ['line', 'polyline', 'polygon'].indexOf(this.el.type) !== -1;
-    if (onlyforMoving || !value) {
+    var containsRectBbox = (['line', 'polyline', 'polygon'].indexOf(this.el.type) !== -1);
+    var onlyforMoving = this.options.deepSelect && containsRectBbox;
+    if (onlyforMoving || (!value && containsRectBbox)) {
         this.selectPoints(value);
     }
     if (!onlyforMoving) {
