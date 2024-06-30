@@ -35,7 +35,7 @@
     "url": "https://github.com/svgdotjs/svg.select.js.git"
   },
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 14.18"
   },
   "devDependencies": {
     "@types/node": "^20.14.7",
