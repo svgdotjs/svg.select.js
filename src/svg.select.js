@@ -25,7 +25,7 @@ extend(Element, {
     selectHandler.active(attr)
 
     return this
-  }
+  },
 })
 
 export default SelectHandler

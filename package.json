@@ -1,7 +1,8 @@
 {
-  "name": "svg.select.js",
+  "name": "@svgdotjs/svg.select.js",
   "version": "4.0.0",
   "description": "An extension of svg.js which allows to select elements with mouse",
+  "type": "module",
   "keywords": [
     "svg.js",
     "select",
@@ -9,15 +10,12 @@
   ],
   "bugs": "https://github.com/svgdotjs/svg.select.js/issues",
   "license": "MIT",
-  "typings": "./svg.draggable.js.d.ts",
+  "typings": "./svg.select.js.d.ts",
   "author": "Ulrich-Matthias Schäfer",
-  "contributors": {
-    "name": "Ulrich-Matthias Schäfer"
-  },
   "homepage": "https://github.com/svgdotjs/svg.select.js",
-  "main": "dist/svg.select.node.js",
-  "unpkg": "dist/svg.select.min.js",
-  "jsdelivr": "dist/svg.select.min.js",
+  "main": "dist/svg.select.umd.js",
+  "unpkg": "dist/svg.select.iife.js",
+  "jsdelivr": "dist/svg.select.iife.js",
   "browser": "src/svg.select.js",
   "module": "src/svg.select.js",
   "files": [
@@ -26,11 +24,9 @@
     "/svg.select.js.d.ts"
   ],
   "scripts": {
-    "build": "npm run fix && npm run rollup",
-    "fix": "npx eslint ./src --fix",
-    "lint": "npx eslint ./src",
-    "rollup": "npx rollup -c .config/rollup.config.js",
-    "zip": "zip -j dist/svg.draggable.js.zip -- LICENSE README.md dist/svg.draggable.js dist/svg.draggable.js.map dist/svg.draggable.min.js dist/svg.draggable.min.js.map",
+    "dev": "vite",
+    "build": "tsc && prettier --write . && vite build",
+    "zip": "zip -j dist/svg.select.js.zip -- LICENSE README.md dist/svg.select.css  dist/svg.select.iife.js  dist/svg.select.iife.js.map  dist/svg.select.js  dist/svg.select.js.map  dist/svg.select.umd.cjs  dist/svg.select.umd.cjs.map",
     "prepublishOnly": "rm -rf ./dist && npm run build",
     "postpublish": "npm run zip"
   },
@@ -42,31 +38,14 @@
     "node": ">= 0.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-external-helpers": "^7.2.0",
-    "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.2.3",
-    "@babel/runtime": "^7.2.0",
-    "@babel/runtime-corejs2": "^7.2.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.12.1",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "rollup": "^1.1.0",
-    "rollup-plugin-babel": "^4.3.1",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-filesize": "^6.0.0",
-    "rollup-plugin-multi-entry": "^2.1.0",
-    "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-terser": "^4.0.2",
-    "rollup-plugin-uglify": "^6.0.1",
-    "rollup-plugin-uglify-es": "0.0.1"
+    "@types/node": "^20.14.7",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "prettier": "^3.3.2",
+    "terser": "^5.31.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
   },
-  "dependencies": {
-    "@svgdotjs/svg.js": "^3.0.12"
+  "peerDependencies": {
+    "@svgdotjs/svg.js": "^3.2.4"
   }
 }
