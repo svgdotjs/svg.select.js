@@ -1,31 +1,40 @@
-import { Element, extend } from '@svgdotjs/svg.js'
-import { SelectHandler } from './select-handler'
+import { Element, Line, Polygon, Polyline, extend } from '@svgdotjs/svg.js'
+import { SelectHandler } from './SelectHandler'
+import { PointSelectHandler } from './PointSelectHandler'
 
-extend(Element, {
-  /**
-   * Select element with mouse
-   *
-   * @param {SelectHandler | Object | boolean} attr
-   */
-  selectize: function (attr = true) {
-    var selectHandler = this.remember('_selectHandler')
-
-    if (!selectHandler) {
-      if (attr.prototype instanceof SelectHandler) {
-        /* eslint new-cap: ["error", { "newIsCap": false }] */
-        selectHandler = new attr(this)
-        attr = true
-      } else {
-        selectHandler = new SelectHandler(this)
-      }
-
-      this.remember('_selectHandler', selectHandler)
+const getSelectFn = (handleClass) => {
+  return function (enabled = true, options = {}) {
+    // Check the parameters and reassign if needed
+    if (typeof enabled === 'object') {
+      options = enabled
+      enabled = true
     }
 
-    selectHandler.active(attr)
+    let selectHandler = this.remember('_' + handleClass.name)
+
+    if (!selectHandler) {
+      if (enabled.prototype instanceof SelectHandler) {
+        selectHandler = new enabled(this)
+        enabled = true
+      } else {
+        selectHandler = new handleClass(this)
+      }
+
+      this.remember('_' + handleClass.name, selectHandler)
+    }
+
+    selectHandler.active(enabled, options)
 
     return this
-  },
+  }
+}
+
+extend(Element, {
+  select: getSelectFn(SelectHandler),
 })
 
-export default SelectHandler
+extend([Polygon, Polyline, Line], {
+  pointSelect: getSelectFn(PointSelectHandler),
+})
+
+export { SelectHandler, PointSelectHandler }

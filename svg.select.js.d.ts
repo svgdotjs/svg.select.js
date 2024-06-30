@@ -1,4 +1,4 @@
-import { SelectHandler } from './src/select-handler.js'
+import { SelectHandler } from './src/SelectHandler.js'
 
 interface selectionPointArray {
   [index: number]: 'lt' | 'rt' | 'rb' | 'lb' | 't' | 'r' | 'b' | 'l' | 'rot' | 'shear'
@@ -17,11 +17,11 @@ interface selectionOptions {
 
 declare module '@svgdotjs/svg.js' {
   interface Element {
-    selectize(): this
+    select(): this
 
-    selectize(enable: boolean): this
-    selectize(options: selectionOptions): this
-    selectize(handler: SelectHandler): this
-    selectize(attr?: SelectHandler | selectionOptions | boolean): this
+    select(enable: boolean): this
+    select(options: selectionOptions): this
+    select(handler: SelectHandler): this
+    select(attr?: SelectHandler | selectionOptions | boolean): this
   }
 }

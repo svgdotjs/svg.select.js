@@ -1,57 +1,62 @@
-.svg_select_boundingRect {
-  fill: none;
-  stroke: black;
+.svg_select_shape {
   stroke-width: 1;
+  stroke-dasharray: 10 10;
+  stroke: black;
+  stroke-opacity: 0.1;
+  pointer-events: none;
+  fill: none;
+}
+
+.svg_select_shape_pointSelect {
+  stroke-width: 1;
+  fill: none;
+  stroke-dasharray: 10 10;
+  stroke: black;
+  stroke-opacity: 0.8;
+  pointer-events: none;
+}
+
+.svg_select_handle {
+  stroke-width: 3;
+  stroke: black;
+  fill: none;
 }
 
 .svg_select_handle_rot {
   fill: white;
   stroke: black;
   stroke-width: 1;
+  cursor: move;
 }
 
-.svg_select_points_lt {
+.svg_select_handle_lt {
   cursor: nw-resize;
 }
-.svg_select_points_rt {
+.svg_select_handle_rt {
   cursor: ne-resize;
 }
-.svg_select_points_rb {
+.svg_select_handle_rb {
   cursor: se-resize;
 }
-.svg_select_points_lb {
+.svg_select_handle_lb {
   cursor: sw-resize;
 }
-.svg_select_points_t {
+.svg_select_handle_t {
   cursor: n-resize;
 }
-.svg_select_points_r {
+.svg_select_handle_r {
   cursor: e-resize;
 }
-.svg_select_points_b {
+.svg_select_handle_b {
   cursor: s-resize;
 }
-.svg_select_points_l {
+.svg_select_handle_l {
   cursor: w-resize;
 }
 
-.svg_select_points_rot {
-  stroke-width: 1;
+.svg_select_handle_point {
+  fill: black;
   stroke: black;
-  fill: #f9ffed;
-  cursor: move;
-}
-
-.svg_select_points_point {
-  cursor: move;
-}
-
-.svg_select_boundingRect {
   stroke-width: 1;
-  fill: gray;
-  stroke-dasharray: 10 10;
-  stroke: black;
-  stroke-opacity: 0.8;
-  fill-opacity: 0.1;
-  pointer-events: none; /* This ons is needed if you want to deselect or drag the shape*/
+  cursor: move;
 }
