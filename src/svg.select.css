@@ -55,8 +55,8 @@
 }
 
 .svg_select_handle_point {
-  fill: black;
   stroke: black;
   stroke-width: 1;
   cursor: move;
+  fill: white;
 }
