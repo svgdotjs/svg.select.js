@@ -10,7 +10,6 @@
   ],
   "bugs": "https://github.com/svgdotjs/svg.select.js/issues",
   "license": "MIT",
-  "typings": "./svg.select.js.d.ts",
   "author": "Ulrich-Matthias Schäfer",
   "homepage": "https://github.com/svgdotjs/svg.select.js",
   "main": "dist/svg.select.umd.js",
@@ -18,6 +17,7 @@
   "jsdelivr": "dist/svg.select.iife.js",
   "browser": "src/svg.select.js",
   "module": "src/svg.select.js",
+  "typings": "./svg.select.js.d.ts",
   "files": [
     "/dist",
     "/src",
