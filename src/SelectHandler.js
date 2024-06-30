@@ -60,7 +60,7 @@ export class SelectHandler {
       this.selection
         .get(index + 1)
         .addClass('svg_select_handle svg_select_handle_' + name)
-        .on('mousedown.selection touchstart.selection', getMoseDownFunc(name, this.el))
+        .on('mousedown.selection touchstart.selection', getMoseDownFunc(name, this.el, this))
     })
   }
 
@@ -118,7 +118,7 @@ export class SelectHandler {
     const handle = this.selection
       .group()
       .addClass('svg_select_handle_rot')
-      .on('mousedown.selection touchstart.selection', getMoseDownFunc('rot', this.el))
+      .on('mousedown.selection touchstart.selection', getMoseDownFunc('rot', this.el, this))
 
     this.createRot.call(this, handle)
   }

@@ -4,14 +4,14 @@
  * @param {import('@svgdotjs/svg.js').Element} el
  * @param {number | null} index
  */
-export function getMoseDownFunc(eventName, el, index = null) {
+export function getMoseDownFunc(eventName, el, handler, index = null) {
   return function (ev) {
     ev.preventDefault()
     ev.stopPropagation()
 
     var x = ev.pageX || ev.touches[0].pageX
     var y = ev.pageY || ev.touches[0].pageY
-    el.fire(eventName, { x: x, y: y, event: ev, index })
+    el.fire(eventName, { x: x, y: y, event: ev, index, handler })
   }
 }
 
