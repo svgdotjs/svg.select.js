@@ -1,0 +1,11 @@
+<!doctype html>
+<html>
+  <head></head>
+  <body>
+    <script type="module" src="src/main.js"></script>
+    <script type="module">
+      import { SVG } from '@svgdotjs/svg.js'
+      new SVG().size(500, 500).addTo('body').rect(100, 100).move(100, 100).fill('red').selectize()
+    </script>
+  </body>
+</html>
