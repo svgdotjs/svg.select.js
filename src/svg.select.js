@@ -4,7 +4,6 @@ import { PointSelectHandler } from './PointSelectHandler'
 
 const getSelectFn = (handleClass) => {
   return function (enabled = true, options = {}) {
-    // Check the parameters and reassign if needed
     if (typeof enabled === 'object') {
       options = enabled
       enabled = true
