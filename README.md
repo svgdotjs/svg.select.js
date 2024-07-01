@@ -4,7 +4,7 @@ An extension of [svg.js](https://github.com/svgdotjs/svg.js) which allows to sel
 
 # Demo
 
-For a demo see http://svgdotjs.github.io/svg.select.js/
+For a demo see http://svgjs.dev/svg.resize.js/
 
 # Get Started
 
