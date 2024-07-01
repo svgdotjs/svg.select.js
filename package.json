@@ -12,7 +12,7 @@
   "license": "MIT",
   "author": "Ulrich-Matthias Schäfer",
   "homepage": "https://github.com/svgdotjs/svg.select.js",
-  "main": "dist/svg.select.umd.js",
+  "main": "dist/svg.select.umd.cjs",
   "unpkg": "dist/svg.select.iife.js",
   "jsdelivr": "dist/svg.select.iife.js",
   "browser": "dist/svg.select.js",
@@ -22,7 +22,7 @@
     ".": {
       "types": "./svg.select.js.d.ts",
       "import": "./dist/svg.select.js",
-      "require": "./dist/svg.select.umd.js"
+      "require": "./dist/svg.select.umd.cjs"
     },
     "./src/*": "./src/"
   },
