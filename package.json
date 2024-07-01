@@ -15,9 +15,17 @@
   "main": "dist/svg.select.umd.js",
   "unpkg": "dist/svg.select.iife.js",
   "jsdelivr": "dist/svg.select.iife.js",
-  "browser": "src/svg.select.js",
-  "module": "src/svg.select.js",
+  "browser": "dist/svg.select.js",
+  "module": "dist/svg.select.js",
   "typings": "./svg.select.js.d.ts",
+  "exports": {
+    ".": {
+      "types": "./svg.select.js.d.ts",
+      "import": "./dist/svg.select.js",
+      "require": "./dist/svg.select.umd.js"
+    },
+    "./src/*": "./src/"
+  },
   "files": [
     "/dist",
     "/src",
