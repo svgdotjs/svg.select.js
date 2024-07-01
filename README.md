@@ -2,11 +2,11 @@
 
 An extension of [svg.js](https://github.com/svgdotjs/svg.js) which allows to select elements with mouse
 
-# Demo
+## Demo
 
 For a demo see http://svgjs.dev/svg.resize.js/
 
-# Get Started
+## Get Started
 
 - Install `svg.js` and `svg.select.js` using npm:
 
@@ -28,7 +28,7 @@ For a demo see http://svgjs.dev/svg.resize.js/
   canvas.rect(50, 50).fill('red').select()
   ```
 
-# Usage
+## Usage
 
 Select
 
@@ -54,7 +54,7 @@ Unselect
 rect.select(false)
 ```
 
-# Adaptation
+## Adaptation
 
 Sometimes, the default shape is not to your liking. Therefore, you can create your own handles by passing in a create and update function:
 
@@ -88,7 +88,7 @@ You can style the selection with the classes
 - `svg_select_handle_rot` - _rotation point_
 - `svg_select_handle_point` - _point select point_
 
-# Contributing
+## Contributing
 
 ```bash
 git clone https://github.com/svgdotjs/svg.select.js.git
@@ -97,7 +97,7 @@ npm install
 npm run dev
 ```
 
-# Migration from svg.js v2
+## Migration from svg.js v2
 
 - The css classes changed. In case you used your own styling, you'll need to adapt
 - A lot of options got dropped in favor of the `create` and `update` functions
