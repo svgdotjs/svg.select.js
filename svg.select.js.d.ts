@@ -1,4 +1,4 @@
-import { SelectHandler, PointSelectHandler } from './src/SelectHandler.js'
+import { SelectHandler, PointSelectHandler } from './src/svg.select.js'
 
 interface SelectionOptions {
   createHandle?: (el: Element) => Element
@@ -38,3 +38,5 @@ declare module '@svgdotjs/svg.js' {
     pointSelect(attr?: PointSelectHandler | SelectionOptions | boolean): this
   }
 }
+
+export { SelectHandler, PointSelectHandler }
