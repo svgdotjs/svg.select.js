@@ -131,7 +131,7 @@ export class SelectHandler {
   // gets new bounding box points and transform them into the elements space
   updatePoints() {
     const bbox = this.el.bbox()
-    const fromShapeToUiMatrix = this.el.parent().screenCTM().inverseO().multiplyO(this.el.screenCTM())
+    const fromShapeToUiMatrix = this.el.root().screenCTM().inverseO().multiplyO(this.el.screenCTM())
 
     this.handlePoints = this.getHandlePoints(bbox).map((p) => transformPoint(p, fromShapeToUiMatrix))
     this.rotationPoint = transformPoint(this.getRotationPoint(bbox), fromShapeToUiMatrix)
