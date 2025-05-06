@@ -74,7 +74,7 @@ export class PointSelectHandler {
 
   // gets new bounding box points and transform them into the elements space
   updatePoints() {
-    const fromShapeToUiMatrix = this.el.parent().screenCTM().inverseO().multiplyO(this.el.screenCTM())
+    const fromShapeToUiMatrix = this.el.root().screenCTM().inverseO().multiplyO(this.el.screenCTM())
     this.points = this.el.array().map((p) => transformPoint(p, fromShapeToUiMatrix))
   }
 
