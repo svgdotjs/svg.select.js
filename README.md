@@ -72,6 +72,18 @@ polygon.pointSelect({
 })
 ```
 
+### Selecting handles
+
+By default, all resize handles (`lt`, `t`, `rt`, `r`, `rb`, `b`, `lb`, `l`) and the rotation handle (`rot`) are shown. Pass an explicit `handles` array to render only those:
+
+```ts
+// resize-only selection (corners)
+rect.select({ handles: ['lt', 'rt', 'rb', 'lb'] })
+
+// rotate-only selection
+rect.select({ handles: ['rot'] })
+```
+
 You can style the selection with the classes
 
 - `svg_select_shape` - _normal selection_
