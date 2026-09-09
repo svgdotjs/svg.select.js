@@ -54,7 +54,10 @@ export class PointSelectHandler {
       this.selection
         .get(index + 1)
         .addClass('svg_select_handle_point')
-        .on('mousedown.selection touchstart.selection', getMoseDownFunc('point', this.el, this.points, index))
+        .on('mousedown.selection', getMoseDownFunc('point', this.el, this.points, index))
+        .on('touchstart.selection', getMoseDownFunc('point', this.el, this.points, index), undefined, {
+          passive: false,
+        })
     })
   }
 
