@@ -5,6 +5,7 @@ interface SelectionOptions {
   updateHandle?: (el: Element, point: number[]) => void
   createRot?: (el: Element) => Element
   updateRot?: (el: Element, rotPoint: number[], handlePoints: number[][]) => void
+  handles?: Array<'lt' | 't' | 'rt' | 'r' | 'rb' | 'b' | 'lb' | 'l' | 'rot'>
 }
 
 declare module '@svgdotjs/svg.js' {

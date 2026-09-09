@@ -13,12 +13,14 @@ export class SelectHandler {
     this.observer = new win.MutationObserver(this.mutationHandler)
   }
 
-  init(options) {
+  init(options = {}) {
     this.createHandle = options.createHandle || this.createHandleFn
     this.createRot = options.createRot || this.createRotFn
 
     this.updateHandle = options.updateHandle || this.updateHandleFn
     this.updateRot = options.updateRot || this.updateRotFn
+
+    this.handles = options.handles ? [...options.handles] : [...this.order]
 
     // mount group
     this.el.root().put(this.selection)
@@ -55,10 +57,11 @@ export class SelectHandler {
   createResizeHandles() {
     this.handlePoints.forEach((p, index, arr) => {
       const name = this.order[index]
+      if (!this.handles.includes(name)) return
       this.createHandle.call(this, this.selection, p, index, arr, name)
 
       this.selection
-        .get(index + 1)
+        .last()
         .addClass('svg_select_handle svg_select_handle_' + name)
         .on('mousedown.selection touchstart.selection', getMoseDownFunc(name, this.el, this.handlePoints, index))
     })
@@ -91,7 +94,10 @@ export class SelectHandler {
   updateResizeHandles() {
     this.handlePoints.forEach((p, index, arr) => {
       const name = this.order[index]
-      this.updateHandle.call(this, this.selection.get(index + 1), p, index, arr, name)
+      if (!this.handles.includes(name)) return
+      const shape = this.selection.findOne('.svg_select_handle_' + name)
+      if (!shape) return
+      this.updateHandle.call(this, shape, p, index, arr, name)
     })
   }
 
@@ -105,7 +111,7 @@ export class SelectHandler {
   }
 
   getPointHandle(name) {
-    return this.selection.get(this.order.indexOf(name) + 1)
+    return this.selection.findOne('.svg_select_handle_' + name)
   }
 
   updateRotFn(group, rotPoint) {
@@ -115,6 +121,7 @@ export class SelectHandler {
   }
 
   createRotationHandle() {
+    if (!this.handles.includes('rot')) return
     const handle = this.selection
       .group()
       .addClass('svg_select_handle_rot')
@@ -124,7 +131,9 @@ export class SelectHandler {
   }
 
   updateRotationHandle() {
+    if (!this.handles.includes('rot')) return
     const group = this.selection.findOne('g.svg_select_handle_rot')
+    if (!group) return
     this.updateRot(group, this.rotationPoint, this.handlePoints)
   }
 
