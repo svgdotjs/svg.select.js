@@ -3,6 +3,34 @@
   "version": "4.0.3",
   "description": "An extension of svg.js which allows to select elements with mouse",
   "type": "module",
+  "packageManager": "pnpm@11.26.0",
+  "main": "dist/svg.select.js",
+  "module": "dist/svg.select.mjs",
+  "exports": {
+    ".": {
+      "browser": {
+        "types": "./dist/svg.select.d.mts",
+        "default": "./dist/svg.select.mjs"
+      },
+      "import": {
+        "types": "./dist/svg.select.d.mts",
+        "default": "./dist/svg.select.mjs"
+      },
+      "require": {
+        "types": "./dist/svg.select.d.ts",
+        "default": "./dist/svg.select.js"
+      }
+    },
+    "./src/svg.select.css": "./dist/svg.select.css",
+    "./dist/svg.select.css": "./dist/svg.select.css",
+    "./package.json": "./package.json"
+  },
+  "unpkg": "dist/svg.select.js",
+  "jsdelivr": "dist/svg.select.js",
+  "files": [
+    "/dist",
+    "!/dist/*.zip"
+  ],
   "keywords": [
     "svg.js",
     "select",
@@ -10,52 +38,30 @@
   ],
   "bugs": "https://github.com/svgdotjs/svg.select.js/issues",
   "license": "MIT",
+  "typings": "./dist/svg.select.d.ts",
   "author": "Ulrich-Matthias Schäfer",
   "homepage": "https://github.com/svgdotjs/svg.select.js",
-  "main": "dist/svg.select.umd.cjs",
-  "unpkg": "dist/svg.select.iife.js",
-  "jsdelivr": "dist/svg.select.iife.js",
-  "browser": "dist/svg.select.js",
-  "module": "dist/svg.select.js",
-  "typings": "./svg.select.js.d.ts",
-  "exports": {
-    ".": {
-      "types": "./svg.select.js.d.ts",
-      "import": "./dist/svg.select.js",
-      "require": "./dist/svg.select.umd.cjs"
-    },
-    "./src/*": "./src/"
-  },
-  "files": [
-    "/dist",
-    "/src",
-    "/svg.select.js.d.ts"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && prettier --write . && eslint ./src && vite build",
-    "zip": "zip -j dist/svg.select.js.zip -- LICENSE README.md dist/svg.select.css  dist/svg.select.iife.js  dist/svg.select.iife.js.map  dist/svg.select.js  dist/svg.select.js.map  dist/svg.select.umd.cjs  dist/svg.select.umd.cjs.map",
-    "prepublishOnly": "rm -rf ./dist && npm run build",
-    "postpublish": "npm run zip"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/svgdotjs/svg.select.js.git"
+    "url": "git+https://github.com/svgdotjs/svg.select.js.git"
   },
-  "engines": {
-    "node": ">= 14.18"
-  },
-  "devDependencies": {
-    "@types/node": "^20.14.7",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "eslint-plugin-import-x": "^0.5.2",
-    "prettier": "^3.3.2",
-    "terser": "^5.31.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0",
-    "eslint": "^9.6.0"
+  "scripts": {
+    "build": "pnpm fix && tsc && vite build",
+    "demo": "vite demo",
+    "demo:build": "vite build demo --outDir ../demo-dist --emptyOutDir",
+    "fix": "oxfmt --write . && oxlint -D correctness --fix .",
+    "lint": "oxfmt --check . && oxlint -D correctness .",
+    "prepublishOnly": "rm -rf ./dist && pnpm build && pnpm zip",
+    "zip": "zip -j dist/svg.select.js.zip -- LICENSE README.md dist/svg.select.js dist/svg.select.css"
   },
   "peerDependencies": {
-    "@svgdotjs/svg.js": "^3.2.4"
+    "@svgdotjs/svg.js": "^3.1.0"
+  },
+  "devDependencies": {
+    "@svgdotjs/svg.js": "^3.2.8",
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
   }
 }

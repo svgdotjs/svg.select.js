@@ -1,8 +1,10 @@
-import { resolve } from 'node:path'
+import { readFileSync } from 'node:fs'
+
 import { defineConfig } from 'vite'
+
 import pkg from './package.json' with { type: 'json' }
 
-const buildDate = Date()
+const buildDate = new Date().toISOString()
 
 const headerLong = `/*!
 * ${pkg.name} - ${pkg.description}
@@ -15,33 +17,68 @@ const headerLong = `/*!
 * BUILT: ${buildDate}
 */;`
 
-const headerShort = `/*! ${pkg.name} v${pkg.version} ${pkg.license}*/;`
+const types = readFileSync('svg.select.js.d.ts', 'utf8')
+let emitted = false
+
+const distExtras = {
+  name: 'dist-extras',
+  generateBundle() {
+    if (emitted) return
+    emitted = true
+
+    // Without this node reads dist/*.js as esm and the umd wrapper falls
+    // through to its global branch instead of module.exports.
+    this.emitFile({
+      type: 'asset',
+      fileName: 'package.json',
+      source: JSON.stringify({ type: 'commonjs' }, null, 2) + '\n'
+    })
+
+    // One maintained declaration, copied for both module formats.
+    this.emitFile({
+      type: 'asset',
+      fileName: 'svg.select.d.mts',
+      source: types
+    })
+    this.emitFile({
+      type: 'asset',
+      fileName: 'svg.select.d.ts',
+      source: types
+    })
+  }
+}
 
 export default defineConfig({
+  plugins: [distExtras],
   build: {
-    sourcemap: true,
     lib: {
-      entry: resolve('./src/main.js'),
-      name: 'svg.select.js',
-      fileName: 'svg.select',
-      formats: ['iife', 'es', 'umd'],
+      entry: 'src/main.js',
+      name: 'SVG'
     },
     rollupOptions: {
       external: ['@svgdotjs/svg.js'],
-      output: {
-        globals: {
-          '@svgdotjs/svg.js': 'SVG',
+      output: [
+        {
+          format: 'umd',
+          name: 'SVG',
+          entryFileNames: 'svg.select.js',
+          globals: { '@svgdotjs/svg.js': 'SVG' },
+          banner: headerLong,
+          minify: true,
+          // without this the minifier drops the banner
+          comments: { legal: true },
+          assetFileNames: 'svg.select.[ext]'
         },
-        banner: headerLong,
-        assetFileNames: 'svg.select.[ext]',
-      },
-    },
-    minify: 'terser',
-    terserOptions: {
-      output: {
-        preamble: headerShort,
-        comments: false,
-      },
-    },
-  },
+        // Must stay esm, so it resolves svg.js through the same import
+        // condition the consumer used.
+        {
+          format: 'es',
+          entryFileNames: 'svg.select.mjs',
+          banner: headerLong,
+          minify: false,
+          assetFileNames: 'svg.select.[ext]'
+        }
+      ]
+    }
+  }
 })

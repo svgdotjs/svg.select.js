@@ -4,7 +4,8 @@ An extension of [svg.js](https://github.com/svgdotjs/svg.js) which allows to sel
 
 ## Demo
 
-For a demo see http://svgjs.dev/svg.resize.js/
+For a demo see http://svgjs.dev/svg.resize.js/ or run `pnpm demo`, which starts
+a vite dev server with the demo from `demo/`.
 
 ## Get Started
 
@@ -39,7 +40,7 @@ var polygon = canvas.polygon([
   [100, 100],
   [200, 100],
   [200, 200],
-  [100, 200],
+  [100, 200]
 ])
 rect.select()
 polygon.pointSelect()
@@ -60,15 +61,19 @@ Sometimes, the default shape is not to your liking. Therefore, you can create yo
 
 ```ts
 rect.select({
-  createHandle: (group, p, index, pointArr, handleName) => group.circle(10).css({ stroke: '#666', fill: 'blue' }),
-  updateHandle: (group, p, index, pointArr, handleName) => group.center(p[0], p[1]),
+  createHandle: (group, p, index, pointArr, handleName) =>
+    group.circle(10).css({ stroke: '#666', fill: 'blue' }),
+  updateHandle: (group, p, index, pointArr, handleName) =>
+    group.center(p[0], p[1]),
   createRot: (group) => group.circle(10).css({ stroke: '#666', fill: 'blue' }),
-  updateRot: (group, rotPoint, handlePoints) => group.center(p[0], p[1]),
+  updateRot: (group, rotPoint, handlePoints) => group.center(p[0], p[1])
 })
 
 polygon.pointSelect({
-  createHandle: (group, p, index, pointArr, handleName) => group.circle(10).css({ stroke: '#666', fill: 'blue' }),
-  updateHandle: (group, p, index, pointArr, handleName) => group.center(p[0], p[1]),
+  createHandle: (group, p, index, pointArr, handleName) =>
+    group.circle(10).css({ stroke: '#666', fill: 'blue' }),
+  updateHandle: (group, p, index, pointArr, handleName) =>
+    group.center(p[0], p[1])
 })
 ```
 

@@ -54,10 +54,18 @@ export class PointSelectHandler {
       this.selection
         .get(index + 1)
         .addClass('svg_select_handle_point')
-        .on('mousedown.selection', getMoseDownFunc('point', this.el, this.points, index))
-        .on('touchstart.selection', getMoseDownFunc('point', this.el, this.points, index), undefined, {
-          passive: false,
-        })
+        .on(
+          'mousedown.selection',
+          getMoseDownFunc('point', this.el, this.points, index)
+        )
+        .on(
+          'touchstart.selection',
+          getMoseDownFunc('point', this.el, this.points, index),
+          undefined,
+          {
+            passive: false
+          }
+        )
     })
   }
 
@@ -77,8 +85,14 @@ export class PointSelectHandler {
 
   // gets new bounding box points and transform them into the elements space
   updatePoints() {
-    const fromShapeToUiMatrix = this.el.root().screenCTM().inverseO().multiplyO(this.el.screenCTM())
-    this.points = this.el.array().map((p) => transformPoint(p, fromShapeToUiMatrix))
+    const fromShapeToUiMatrix = this.el
+      .root()
+      .screenCTM()
+      .inverseO()
+      .multiplyO(this.el.screenCTM())
+    this.points = this.el
+      .array()
+      .map((p) => transformPoint(p, fromShapeToUiMatrix))
   }
 
   mutationHandler() {
