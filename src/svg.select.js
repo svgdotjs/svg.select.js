@@ -29,11 +29,11 @@ const getSelectFn = (handleClass) => {
 }
 
 extend(Element, {
-  select: getSelectFn(SelectHandler),
+  select: getSelectFn(SelectHandler)
 })
 
 extend([Polygon, Polyline, Line], {
-  pointSelect: getSelectFn(PointSelectHandler),
+  pointSelect: getSelectFn(PointSelectHandler)
 })
 
 export { SelectHandler, PointSelectHandler }

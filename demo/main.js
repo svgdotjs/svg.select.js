@@ -1,0 +1,27 @@
+import '../src/main.js'
+import { SVG } from '@svgdotjs/svg.js'
+const canvas = new SVG().size(1000, 700).addTo('body')
+canvas
+  .rect(100, 100)
+  .move(100, 100)
+  .fill('red')
+  .select({ createHandle: (el) => el.polyline().css({ stroke: '#666' }) })
+canvas
+  // star shape
+  .polygon([
+    [100, 100],
+    [200, 100],
+    [200, 200],
+    [300, 200],
+    [200, 300],
+    [200, 400],
+    [100, 400],
+    [100, 300],
+    [0, 300],
+    [0, 200],
+    [100, 200]
+  ])
+  .move(250, 250)
+  .fill('blue')
+  .pointSelect()
+  .select()

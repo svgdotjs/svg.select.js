@@ -63,10 +63,18 @@ export class SelectHandler {
       this.selection
         .last()
         .addClass('svg_select_handle svg_select_handle_' + name)
-        .on('mousedown.selection', getMoseDownFunc(name, this.el, this.handlePoints, index))
-        .on('touchstart.selection', getMoseDownFunc(name, this.el, this.handlePoints, index), undefined, {
-          passive: false,
-        })
+        .on(
+          'mousedown.selection',
+          getMoseDownFunc(name, this.el, this.handlePoints, index)
+        )
+        .on(
+          'touchstart.selection',
+          getMoseDownFunc(name, this.el, this.handlePoints, index),
+          undefined,
+          {
+            passive: false
+          }
+        )
     })
   }
 
@@ -128,10 +136,18 @@ export class SelectHandler {
     const handle = this.selection
       .group()
       .addClass('svg_select_handle_rot')
-      .on('mousedown.selection', getMoseDownFunc('rot', this.el, this.handlePoints))
-      .on('touchstart.selection', getMoseDownFunc('rot', this.el, this.handlePoints), undefined, {
-        passive: false,
-      })
+      .on(
+        'mousedown.selection',
+        getMoseDownFunc('rot', this.el, this.handlePoints)
+      )
+      .on(
+        'touchstart.selection',
+        getMoseDownFunc('rot', this.el, this.handlePoints),
+        undefined,
+        {
+          passive: false
+        }
+      )
 
     this.createRot.call(this, handle)
   }
@@ -146,10 +162,19 @@ export class SelectHandler {
   // gets new bounding box points and transform them into the elements space
   updatePoints() {
     const bbox = this.el.bbox()
-    const fromShapeToUiMatrix = this.el.root().screenCTM().inverseO().multiplyO(this.el.screenCTM())
+    const fromShapeToUiMatrix = this.el
+      .root()
+      .screenCTM()
+      .inverseO()
+      .multiplyO(this.el.screenCTM())
 
-    this.handlePoints = this.getHandlePoints(bbox).map((p) => transformPoint(p, fromShapeToUiMatrix))
-    this.rotationPoint = transformPoint(this.getRotationPoint(bbox), fromShapeToUiMatrix)
+    this.handlePoints = this.getHandlePoints(bbox).map((p) =>
+      transformPoint(p, fromShapeToUiMatrix)
+    )
+    this.rotationPoint = transformPoint(
+      this.getRotationPoint(bbox),
+      fromShapeToUiMatrix
+    )
   }
 
   // A collection of all the points we need to draw our ui
@@ -162,7 +187,7 @@ export class SelectHandler {
       [x2, y2],
       [cx, y2],
       [x, y2],
-      [x, cy],
+      [x, cy]
     ]
   }
 
