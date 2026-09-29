@@ -36,6 +36,7 @@ jobs:
       - run: pnpm lint
       - run: pnpm run --if-present test
       - run: pnpm build
+      - run: pnpm test:package
 
       - name: Bump the version, commit and tag it
         run: |

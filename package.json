@@ -47,11 +47,12 @@
   },
   "scripts": {
     "build": "tsc && vite build",
+    "test:package": "node test/browser-bundle.mjs",
     "demo": "vite demo",
     "demo:build": "vite build demo --outDir ../demo-dist --emptyOutDir",
     "fix": "oxfmt --write . && oxlint -D correctness --fix .",
     "lint": "oxfmt --check . && oxlint -D correctness .",
-    "prepublishOnly": "rm -rf ./dist && pnpm lint && pnpm build && pnpm zip",
+    "prepublishOnly": "rm -rf ./dist && pnpm lint && pnpm build && pnpm test:package && pnpm zip",
     "zip": "zip -j dist/svg.select.js.zip -- LICENSE README.md dist/svg.select.js dist/svg.select.css"
   },
   "peerDependencies": {

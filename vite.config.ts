@@ -61,6 +61,8 @@ export default defineConfig({
         {
           format: 'umd',
           name: 'SVG',
+          // Attach handler exports without replacing the core SVG global.
+          extend: true,
           entryFileNames: 'svg.select.js',
           globals: { '@svgdotjs/svg.js': 'SVG' },
           banner: headerLong,
